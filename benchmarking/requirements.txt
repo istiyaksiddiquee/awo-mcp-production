@@ -1,0 +1,7 @@
+# Benchmark dependencies (install together with ../requirements.txt, which brings mcp).
+# The oracle model, --validate-cases and the harness tests need only pydantic + pyyaml;
+# litellm is needed for real models, rich only for nicer terminal output.
+pydantic>=2.7
+pyyaml>=6
+litellm>=1.50
+rich>=13

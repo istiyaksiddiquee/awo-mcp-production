@@ -1,0 +1,141 @@
+version: "1.0"
+default_tier: "fast"
+
+tiers:
+  frontier:
+    description: "Frontier Cloud LLMs for high-precision multilingual reasoning and SPARQL AST generation"
+    models:
+      - id: "claude-3-5-sonnet"
+        name: "Claude 3.5 Sonnet"
+        litellm_model: "anthropic/claude-3-5-sonnet-20241022"
+        provider: "anthropic"
+        tier: "frontier"
+        temperature: 0.0
+        max_tokens: 4096
+        timeout_seconds: 60.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.003
+        cost_per_1k_output_usd: 0.015
+
+      - id: "gpt-4o"
+        name: "GPT-4o"
+        litellm_model: "openai/gpt-4o"
+        provider: "openai"
+        tier: "frontier"
+        temperature: 0.0
+        max_tokens: 4096
+        timeout_seconds: 60.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0025
+        cost_per_1k_output_usd: 0.010
+
+      - id: "gemini-1-5-pro"
+        name: "Gemini 1.5 Pro"
+        litellm_model: "gemini/gemini-1.5-pro"
+        provider: "google"
+        tier: "frontier"
+        temperature: 0.0
+        max_tokens: 4096
+        timeout_seconds: 60.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.00125
+        cost_per_1k_output_usd: 0.005
+
+  fast:
+    description: "Fast / Cost-Optimized Cloud LLMs for low-latency routing and high-volume citizen queries"
+    models:
+      - id: "gpt-4o-mini"
+        name: "GPT-4o-mini"
+        litellm_model: "openai/gpt-4o-mini"
+        provider: "openai"
+        tier: "fast"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 30.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.00015
+        cost_per_1k_output_usd: 0.0006
+
+      - id: "claude-3-5-haiku"
+        name: "Claude 3.5 Haiku"
+        litellm_model: "anthropic/claude-3-5-haiku-20241022"
+        provider: "anthropic"
+        tier: "fast"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 30.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0008
+        cost_per_1k_output_usd: 0.004
+
+  local:
+    description: "Open-Weight / Local & vLLM / Ollama hosted models via LiteLLM"
+    models:
+      - id: "qwen-2-5-72b"
+        name: "Qwen 2.5 72B Instruct"
+        litellm_model: "openai/Qwen/Qwen2.5-72B-Instruct"
+        provider: "vllm"
+        tier: "local"
+        api_base: "http://localhost:8000/v1"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 90.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0
+        cost_per_1k_output_usd: 0.0
+
+      - id: "llama-3-1-70b"
+        name: "Llama 3.1 70B Instruct"
+        litellm_model: "openai/meta-llama/Meta-Llama-3.1-70B-Instruct"
+        provider: "vllm"
+        tier: "local"
+        api_base: "http://localhost:8000/v1"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 90.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0
+        cost_per_1k_output_usd: 0.0
+
+      - id: "qwen-2-5-7b-ollama"
+        name: "Qwen 2.5 7B Instruct (Ollama)"
+        litellm_model: "ollama_chat/qwen2.5:7b-instruct"
+        provider: "ollama"
+        tier: "local"
+        api_base: "http://localhost:11434"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 60.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0
+        cost_per_1k_output_usd: 0.0
+
+      - id: "llama-3-8b-ollama"
+        name: "Llama 3 8B Instruct (Ollama)"
+        litellm_model: "ollama_chat/llama3.1:8b"
+        provider: "ollama"
+        tier: "local"
+        api_base: "http://localhost:11434"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 60.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0
+        cost_per_1k_output_usd: 0.0
+
+      # Open WebUI (the server used by tests/evals) through its OpenAI-compatible API.
+      # Needs OPENWEBUI_API_KEY (see .env.example); edit api_base if Open WebUI is not on
+      # localhost:3000. Change litellm_model to "openai/<model id as listed by Open WebUI>".
+      - id: "openwebui-qwen3-8b"
+        name: "Qwen3 8B (Open WebUI)"
+        litellm_model: "openai/qwen3:8b"
+        provider: "openwebui"
+        tier: "local"
+        api_base: "http://localhost:3000/api"
+        api_key_env: "OPENWEBUI_API_KEY"
+        temperature: 0.0
+        max_tokens: 2048
+        timeout_seconds: 300.0
+        supports_tool_choice: true
+        cost_per_1k_input_usd: 0.0
+        cost_per_1k_output_usd: 0.0

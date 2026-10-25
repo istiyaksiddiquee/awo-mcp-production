@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "awo": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["${CLAUDE_PROJECT_DIR:-.}/server.py"]
+    }
+  }
+}

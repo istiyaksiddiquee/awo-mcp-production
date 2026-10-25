@@ -1,0 +1,20 @@
+# List the services (offers, Angebote) whose schema:provider is the given facility or
+# provider IRI, with name and category.
+# {{iri}} is a full entity IRI, checked in Python (SparqlClient.get_entity_card) and
+# turned into an IRI here, because placeholders may only be string literals.
+# Params: {{iri}}
+# Used by: SparqlClient.get_entity_card -> MCP tool get_entity_card
+PREFIX schema: <http://schema.org/>
+
+SELECT ?service
+       (SAMPLE(?name_) AS ?name)
+       (SAMPLE(?category_) AS ?category)
+WHERE {
+    BIND(IRI("{{iri}}") AS ?entity)
+    ?service a schema:Service ;
+             schema:provider ?entity .
+    OPTIONAL { ?service schema:name ?name_ }
+    OPTIONAL { ?service schema:category ?category_ }
+}
+GROUP BY ?service
+ORDER BY ?service

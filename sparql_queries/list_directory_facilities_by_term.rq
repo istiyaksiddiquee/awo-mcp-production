@@ -1,0 +1,105 @@
+# List facilities where the given text occurs in the facility's own text fields, in its
+# address (street, postal code, locality) or in a service linked to it via schema:provider,
+# with every field search_directory filters on, reports or summarises.
+# Match: case-insensitive substring. {{term}} must already be casefolded; it is the
+# longest search term, the remaining terms are checked in Python
+# (SparqlClient.search_directory). Multi-valued contacts and audiences are joined with
+# "; ". ?services joins one "name | category | audience | area served" entry per linked
+# service with " || ".
+# Params: {{term}}
+# Used by: SparqlClient.search_directory -> MCP tool search_directory
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+
+SELECT ?facility
+       (SAMPLE(?name_) AS ?name)
+       (SAMPLE(?alternate_name_) AS ?alternate_name)
+       (SAMPLE(?description_) AS ?description)
+       (SAMPLE(?category_) AS ?category)
+       (SAMPLE(?service_description_) AS ?service_description)
+       (GROUP_CONCAT(DISTINCT STR(?audience_); separator="; ") AS ?audience)
+       (SAMPLE(?accessibility_) AS ?accessibility)
+       (SAMPLE(?opening_hours_) AS ?opening_hours)
+       (GROUP_CONCAT(DISTINCT STR(?telephone_); separator="; ") AS ?telephone)
+       (GROUP_CONCAT(DISTINCT STR(?email_); separator="; ") AS ?email)
+       (SAMPLE(?street_) AS ?street)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+       (SAMPLE(?provider_) AS ?provider)
+       (SAMPLE(?provider_name_) AS ?provider_name)
+       (GROUP_CONCAT(DISTINCT STR(?service_text_); separator=" || ") AS ?services)
+WHERE {
+    {
+        SELECT DISTINCT ?facility WHERE {
+            {
+                ?facility a org:OrganizationalUnit ;
+                          ?match_property ?match_text .
+                VALUES ?match_property {
+                    schema:name schema:alternateName schema:description schema:category
+                    schema:availableService schema:audience schema:accessibilitySummary
+                    schema:openingHours
+                }
+                FILTER(CONTAINS(REPLACE(LCASE(STR(?match_text)), "ß", "ss"), "{{term}}"))
+            }
+            UNION
+            {
+                ?facility a org:OrganizationalUnit ;
+                          schema:address ?match_address .
+                ?match_address ?match_property ?match_text .
+                VALUES ?match_property {
+                    schema:streetAddress schema:postalCode schema:addressLocality
+                }
+                FILTER(CONTAINS(REPLACE(LCASE(STR(?match_text)), "ß", "ss"), "{{term}}"))
+            }
+            UNION
+            {
+                ?match_service a schema:Service ;
+                               schema:provider ?facility ;
+                               ?match_property ?match_text .
+                ?facility a org:OrganizationalUnit .
+                VALUES ?match_property {
+                    schema:name schema:category schema:audience schema:areaServed
+                }
+                FILTER(CONTAINS(REPLACE(LCASE(STR(?match_text)), "ß", "ss"), "{{term}}"))
+            }
+        }
+    }
+    OPTIONAL { ?facility schema:name ?name_ }
+    OPTIONAL { ?facility schema:alternateName ?alternate_name_ }
+    OPTIONAL { ?facility schema:description ?description_ }
+    OPTIONAL { ?facility schema:category ?category_ }
+    OPTIONAL { ?facility schema:availableService ?service_description_ }
+    OPTIONAL { ?facility schema:audience ?audience_ }
+    OPTIONAL { ?facility schema:accessibilitySummary ?accessibility_ }
+    OPTIONAL { ?facility schema:openingHours ?opening_hours_ }
+    OPTIONAL { ?facility schema:telephone ?telephone_ }
+    OPTIONAL { ?facility schema:email ?email_ }
+    OPTIONAL {
+        ?facility schema:address ?address_ .
+        ?address_ a schema:PostalAddress .
+        OPTIONAL { ?address_ schema:streetAddress ?street_ }
+        OPTIONAL { ?address_ schema:postalCode ?postal_code_ }
+        OPTIONAL { ?address_ schema:addressLocality ?city_ }
+    }
+    OPTIONAL {
+        ?facility schema:parentOrganization ?provider_ .
+        ?provider_ a schema:Organization .
+        OPTIONAL { ?provider_ schema:name ?provider_name_ }
+    }
+    OPTIONAL {
+        ?service_ a schema:Service ;
+                  schema:provider ?facility .
+        OPTIONAL { ?service_ schema:name ?service_name_ }
+        OPTIONAL { ?service_ schema:category ?service_category_ }
+        OPTIONAL { ?service_ schema:audience ?service_audience_ }
+        OPTIONAL { ?service_ schema:areaServed ?service_area_ }
+        BIND(CONCAT(
+            COALESCE(STR(?service_name_), ""), " | ",
+            COALESCE(STR(?service_category_), ""), " | ",
+            COALESCE(STR(?service_audience_), ""), " | ",
+            COALESCE(STR(?service_area_), "")
+        ) AS ?service_text_)
+    }
+}
+GROUP BY ?facility
+ORDER BY ?facility

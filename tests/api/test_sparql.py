@@ -19,6 +19,9 @@ from tests.helpers import CachingSparqlClient, mcp_call_once
 
 pytestmark = pytest.mark.api
 
+# vista WIGWAM Connect, Berlin (present in the live directory and in data/directory.ttl)
+KNOWN_FACILITY_IRI = "https://civic-data.de/federated-directory#org-229a4e0b1081"
+
 
 @pytest.fixture(scope="module")
 def client():
@@ -193,12 +196,38 @@ MCP_CASES = {
     "search_facilities": ({"city": "Berlin"}, "search_facilities", ("Berlin",)),
     "get_facility_details": ({"name": "Drehscheibe"}, "get_facility_details", ("Drehscheibe",)),
     "search_services": ({"query": "Suchtberatung"}, "search_services", ("Suchtberatung",)),
+    "find_social_help": ({"need": "debt", "limit": 3}, "find_help", ("debt", 3)),
+    "data_quality_report": ({"organisation": ""}, "data_quality_report", ("",)),
     "detect_duplicates": ({}, "detect_duplicates", ()),
     "check_completeness": ({}, "check_completeness", ()),
     "generate_statistics": ({}, "generate_statistics", ()),
     "compare_facilities": (
         {"facility_1": "Drehscheibe", "facility_2": "Metropolitankapitel"},
         "compare_facilities", ("Drehscheibe", "Metropolitankapitel"),
+    ),
+    "find_nearby": (
+        {"location": "10115", "radius_km": 1, "query": "Beratung"},
+        "find_nearby", ("10115", 1.0, "Beratung"),
+    ),
+    "get_awo_details": (
+        {"iri": KNOWN_FACILITY_IRI}, "get_awo_details", (KNOWN_FACILITY_IRI,),
+    ),
+    "get_entity_card": (
+        {"iri": KNOWN_FACILITY_IRI}, "get_entity_card", (KNOWN_FACILITY_IRI,),
+    ),
+    "search_service_candidates": (
+        {"query": "Schuldner", "limit": 5}, "search_service_candidates", ("Schuldner", 5),
+    ),
+    "search_directory": (
+        {"query": "Schuldner Kreuzberg"}, "search_directory", ("Schuldner Kreuzberg",),
+    ),
+    "count_facilities_per_postal_code": (
+        {"postal_code_prefix": "10", "order": "lowest_per_10k", "limit": 5},
+        "count_facilities_per_postal_code", ("10", "lowest_per_10k", 5),
+    ),
+    "facilities_per_inhabitant_by_region": (
+        {"level": "region", "order": "lowest_per_10k", "postal_code_prefix": "", "limit": 5},
+        "facilities_per_inhabitant_by_region", ("region", "lowest_per_10k", "", 5, 10_000),
     ),
 }
 
@@ -211,3 +240,135 @@ def test_mcp_tool_returns_client_result(client, tool):
     assert json.loads(text) == getattr(client, method)(*args), (
         f"{tool}({arguments}) over MCP differs from SparqlClient.{method}{args}"
     )
+
+
+
+# ---- find_nearby / get_awo_details --------------------------------------------
+
+def expected_nearby(client: SparqlClient, latitude: float, longitude: float, radius_km: float) -> set:
+    """Facilities within radius_km: a plain coordinate query, distances in Python."""
+    from src.sparql_client import haversine_km
+
+    delta = radius_km / 100  # generous: 1/100 degree is >= 0.7 km at German latitudes
+    query = f"""
+        PREFIX schema: <http://schema.org/>
+        PREFIX org: <http://www.w3.org/ns/org#>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        SELECT DISTINCT ?facility ?lat ?lon WHERE {{
+            ?facility a org:OrganizationalUnit ; schema:address ?a .
+            ?a a schema:PostalAddress ; schema:latitude ?lat ; schema:longitude ?lon .
+            FILTER(xsd:double(STR(?lat)) > {latitude - delta * 2}
+                   && xsd:double(STR(?lat)) < {latitude + delta * 2}
+                   && xsd:double(STR(?lon)) > {longitude - delta * 3}
+                   && xsd:double(STR(?lon)) < {longitude + delta * 3})
+        }}"""
+    return {
+        row["facility"]["value"]
+        for row in client.query(query)["results"]["bindings"]
+        if haversine_km(latitude, longitude, float(row["lat"]["value"]), float(row["lon"]["value"]))
+        <= radius_km
+    }
+
+
+def test_postal_code_origin_is_where_the_postal_code_is(client):
+    origin = client.resolve_location("10115")
+    assert origin and origin["matched_by"] == "postal_code", f"10115 did not resolve: {origin}"
+    assert 52.4 < origin["latitude"] < 52.6 and 13.3 < origin["longitude"] < 13.5, (
+        f"10115 (Berlin-Mitte) resolved to {origin}, outside central Berlin"
+    )
+
+
+@pytest.mark.parametrize("location, radius_km", [("10115", 1.0), ("48.1374,11.5755", 1.5)])
+def test_find_nearby_matches_independent_distance_check(client, location, radius_km):
+    result = client.find_nearby(location, radius_km=radius_km, limit=50)
+    origin = result["origin"]
+    expected = expected_nearby(client, origin["latitude"], origin["longitude"], radius_km)
+    assert expected, f"reference query found no facilities near {location}; endpoint data changed?"
+    assert result["total_found"] == len(expected), (
+        f"find_nearby({location!r}, {radius_km}) found {result['total_found']}, "
+        f"independent check found {len(expected)}"
+    )
+    found = [item["iri"] for item in result["results"]]
+    assert set(found) <= expected, f"results outside the radius: {sorted(set(found) - expected)[:5]}"
+    distances = [item["distance_km"] for item in result["results"]]
+    assert distances == sorted(distances), f"results not nearest first: {distances[:10]}"
+
+
+def test_find_nearby_query_only_narrows(client):
+    everything = client.find_nearby("10115", radius_km=1, limit=50)
+    sucht = client.find_nearby("10115", radius_km=1, query="Sucht", limit=50)
+    assert 0 < sucht["total_found"] <= everything["total_found"], (
+        f"query='Sucht' found {sucht['total_found']} of {everything['total_found']} near 10115"
+    )
+
+
+def test_get_awo_details_known_facility(client):
+    details = client.get_awo_details(KNOWN_FACILITY_IRI)
+    assert details and details["name"] == "vista WIGWAM Connect", f"got {pretty_details(details)}"
+    assert details["address"] and "Berlin" in details["address"], details["address"]
+    assert details["map_url"].startswith("https://www.google.com/maps/"), details["map_url"]
+
+
+def test_get_awo_details_agrees_with_find_nearby(client):
+    nearest = client.find_nearby("10115", radius_km=1, limit=1)["results"][0]
+    details = client.get_awo_details(nearest["iri"])
+    assert details and details["name"] == nearest["name"], (
+        f"get_awo_details({nearest['iri']}) name {details and details['name']!r} != {nearest['name']!r}"
+    )
+    assert details["address"] == nearest["address"]
+
+
+def test_get_awo_details_unknown_iri(client):
+    assert client.get_awo_details(KNOWN_FACILITY_IRI + "-does-not-exist") is None
+
+
+# ---- get_entity_card / search_service_candidates / search_directory ---------------
+
+def test_entity_card_agrees_with_get_awo_details(client):
+    card = client.get_entity_card(KNOWN_FACILITY_IRI)
+    details = client.get_awo_details(KNOWN_FACILITY_IRI)
+    assert card["status"] == "ok" and card["entity_type"] == "facility"
+    assert card["fields"]["name"] == details["name"]
+    assert card["fields"]["opening_hours"] == details["opening_hours"]
+    street = card["relationships"]["address"]["entity"]["fields"]["street"]
+    assert street and street in details["address"], f"card street {street!r} not in {details['address']!r}"
+
+
+def test_service_candidates_total_equals_search_services(client):
+    candidates = client.search_service_candidates("Schuldner", limit=25)
+    services = client.search_services("Schuldner")
+    assert candidates["total"] == len(services) > 0, (
+        f"search_service_candidates total {candidates['total']} != search_services {len(services)}"
+    )
+    assert {c["service_id"] for c in candidates["candidates"]} <= {s["iri"] for s in services}
+
+
+def test_service_candidates_follow_links_to_existing_offices(client):
+    page = client.search_service_candidates("Suchtberatung", limit=10)["candidates"]
+    resolved = [c for c in page if c["provider"]["status"] == "resolved"]
+    assert resolved, "no service in the first page links to a facility or provider"
+    card = client.get_entity_card(resolved[0]["provider"]["id"])
+    assert card["status"] == "ok" and card["entity_type"] == resolved[0]["provider"]["type"]
+
+
+def test_directory_telephone_filter_partitions_the_matches(client):
+    everything = client.search_directory("Schuldner Berlin")
+    with_phone = client.search_directory("Schuldner Berlin", has_telephone=True)
+    without = client.search_directory("Schuldner Berlin", has_telephone=False)
+    assert everything["total"] > 0
+    assert with_phone["total"] + without["total"] == everything["total"]
+    assert everything["missing_counts"]["telephone"] == without["total"]
+    assert sum(p["count"] for p in everything["by_provider"]) == everything["total"]
+
+
+def test_directory_more_terms_only_narrow(client):
+    broad = client.search_directory("Schuldner")
+    narrow = client.search_directory("Schuldner Kreuzberg")
+    assert 0 < narrow["total"] <= broad["total"]
+    for hit in narrow["hits"]:
+        terms = {t for m in hit["matched_fields"] for t in m["matched_terms"]}
+        assert terms == {"schuldner", "kreuzberg"}, f"{hit['name']} matched only {terms}"
+
+
+def pretty_details(details):
+    return json.dumps(details, ensure_ascii=False)[:300] if details else details

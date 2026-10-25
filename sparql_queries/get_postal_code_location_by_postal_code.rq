@@ -1,0 +1,19 @@
+# Get the average coordinates of all addresses with a postal code, used as the search
+# origin when a location is given as a postal code. ?addresses is 0 when none match.
+# Params: {{postal_code}}
+# Used by: SparqlClient.resolve_location -> MCP tool find_nearby
+PREFIX schema: <http://schema.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (AVG(?latitude) AS ?latitude)
+       (AVG(?longitude) AS ?longitude)
+       (COUNT(?address) AS ?addresses)
+WHERE {
+    ?address a schema:PostalAddress ;
+             schema:postalCode ?postal_code ;
+             schema:latitude ?lat ;
+             schema:longitude ?lon .
+    FILTER(STR(?postal_code) = "{{postal_code}}")
+    BIND(xsd:double(STR(?lat)) AS ?latitude)
+    BIND(xsd:double(STR(?lon)) AS ?longitude)
+}

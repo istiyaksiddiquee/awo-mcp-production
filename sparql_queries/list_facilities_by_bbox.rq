@@ -1,0 +1,84 @@
+# List facilities whose address coordinates lie inside a bounding box, with the fields
+# find_nearby needs to filter, rank and describe them (contacts, hours, offers, provider).
+# {{bbox}} is "south,west,north,east" in decimal degrees, validated in Python
+# (SparqlClient.find_nearby) and parsed here, because placeholders may only be string
+# literals. Coordinates are compared as xsd:double (the live data types them as doubles,
+# data/directory.ttl as plain strings). Multi-valued fields are joined with "; ".
+# Params: {{bbox}}
+# Used by: SparqlClient.find_nearby -> MCP tool find_nearby
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?facility
+       (SAMPLE(?name_) AS ?name)
+       (SAMPLE(?alternate_name_) AS ?alternate_name)
+       (SAMPLE(?category_) AS ?category)
+       (GROUP_CONCAT(DISTINCT STR(?audience_); separator="; ") AS ?audience)
+       (SAMPLE(?service_description_) AS ?service_description)
+       (SAMPLE(?accessibility_) AS ?accessibility)
+       (GROUP_CONCAT(DISTINCT STR(?telephone_); separator="; ") AS ?telephone)
+       (GROUP_CONCAT(DISTINCT STR(?email_); separator="; ") AS ?email)
+       (GROUP_CONCAT(DISTINCT STR(?homepage_); separator="; ") AS ?homepage)
+       (SAMPLE(?opening_hours_) AS ?opening_hours)
+       (SAMPLE(?source_url_) AS ?source_url)
+       (SAMPLE(?street_) AS ?street)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+       (SAMPLE(?latitude_) AS ?latitude)
+       (SAMPLE(?longitude_) AS ?longitude)
+       (SAMPLE(?provider_name_) AS ?provider_name)
+       (GROUP_CONCAT(DISTINCT STR(?offer_name_); separator="; ") AS ?offers)
+       (GROUP_CONCAT(DISTINCT STR(?offer_category_); separator="; ") AS ?offer_categories)
+WHERE {
+    {
+        SELECT ?facility ?latitude_ ?longitude_ ?street_ ?postal_code_ ?city_ WHERE {
+            BIND("{{bbox}}" AS ?bbox)
+            BIND(STRAFTER(?bbox, ",") AS ?rest1)
+            BIND(STRAFTER(?rest1, ",") AS ?rest2)
+            BIND(xsd:double(STRBEFORE(?bbox, ",")) AS ?south)
+            BIND(xsd:double(STRBEFORE(?rest1, ",")) AS ?west)
+            BIND(xsd:double(STRBEFORE(?rest2, ",")) AS ?north)
+            BIND(xsd:double(STRAFTER(?rest2, ",")) AS ?east)
+
+            ?address a schema:PostalAddress ;
+                     schema:latitude ?lat ;
+                     schema:longitude ?lon .
+            BIND(xsd:double(STR(?lat)) AS ?latitude_)
+            BIND(xsd:double(STR(?lon)) AS ?longitude_)
+            FILTER(?latitude_ >= ?south && ?latitude_ <= ?north
+                   && ?longitude_ >= ?west && ?longitude_ <= ?east)
+
+            ?facility a org:OrganizationalUnit ;
+                      schema:address ?address .
+            OPTIONAL { ?address schema:streetAddress ?street_ }
+            OPTIONAL { ?address schema:postalCode ?postal_code_ }
+            OPTIONAL { ?address schema:addressLocality ?city_ }
+        }
+    }
+    OPTIONAL { ?facility schema:name ?name_ }
+    OPTIONAL { ?facility schema:alternateName ?alternate_name_ }
+    OPTIONAL { ?facility schema:category ?category_ }
+    OPTIONAL { ?facility schema:audience ?audience_ }
+    OPTIONAL { ?facility schema:availableService ?service_description_ }
+    OPTIONAL { ?facility schema:accessibilitySummary ?accessibility_ }
+    OPTIONAL { ?facility schema:telephone ?telephone_ }
+    OPTIONAL { ?facility schema:email ?email_ }
+    OPTIONAL { ?facility foaf:homepage ?homepage_ }
+    OPTIONAL { ?facility schema:openingHours ?opening_hours_ }
+    OPTIONAL { ?facility schema:mainEntityOfPage ?source_url_ }
+    OPTIONAL {
+        ?facility schema:parentOrganization ?provider_ .
+        ?provider_ a schema:Organization ;
+                   schema:name ?provider_name_ .
+    }
+    OPTIONAL {
+        ?offer_ a schema:Service ;
+                schema:provider ?facility .
+        OPTIONAL { ?offer_ schema:name ?offer_name_ }
+        OPTIONAL { ?offer_ schema:category ?offer_category_ }
+    }
+}
+GROUP BY ?facility
+ORDER BY ?facility

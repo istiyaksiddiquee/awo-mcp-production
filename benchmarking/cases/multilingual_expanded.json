@@ -1,0 +1,2762 @@
+[
+  {
+    "id": "ml-001-de-jugendberatung-10115",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Jugendberatung im Bezirk Mitte (PLZ 10115)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-002-en-suchtberatung-13187",
+    "prompt": "Where can I find verified addiction counselling in Pankow (postal code 13187)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-003-tr-seniorenhilfe-10551",
+    "prompt": "Moabit (10551) bölgesinde Türkçe destek veren yaşlı bakım danışmanlığı nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-004-ar-schuldnerberatung-13353",
+    "prompt": "أين يمكنني العثور على استشارات الديون في منطقة Wedding (الرمز البريدي 13353)؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-005-pl-familienberatung-10777",
+    "prompt": "Gdzie w dzielnicy Schöneberg (10777) znajdę poradnictwo rodzinne?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-006-ru-krisenintervention-10997",
+    "prompt": "Где в районе Kreuzberg (индекс 10997) можно найти кризисная психологическая помощь?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-007-vi-frauenhaus-13597",
+    "prompt": "Tôi có thể tìm nhà tạm lánh cho phụ nữ tại quận Spandau (mã bưu điện 13597) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-008-es-migrationsberatung-10365",
+    "prompt": "¿Dónde puedo encontrar un centro de asesoría de migración en Lichtenberg (código postal 10365)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-009-fr-jugendberatung-10245",
+    "prompt": "Où puis-je trouver un service de conseil jeunesse à Friedrichshain (code postal 10245) ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-010-ku-suchtberatung-12043",
+    "prompt": "Li Neukölln (12043) ez dikarim li ku derê şêwirmendiya tiryakê peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-011-uk-seniorenhilfe-14109",
+    "prompt": "Де в районі Wannsee (14109) є допомога літнім людям для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-012-fa-schuldnerberatung-12555",
+    "prompt": "کجا می‌توانم در منطقه Köpenick (کد پستی 12555) مرکز مشاوره بدهی پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-013-am-familienberatung-10115",
+    "prompt": "በMitte (10115) አካባቢ የቤተሰብ ምክር የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-014-leichte-krisenintervention-13187",
+    "prompt": "Ich suche Sofort-Hilfe bei seelischen Krisen in Pankow (13187). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-015-berlin-frauenhaus-10551",
+    "prompt": "Sach mal, wo jibt et denn hier in Moabit (10551) 'ne vernünftige Frauenhaus?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-016-de-seniorenhilfe-13353",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Seniorenhilfe und Pflegeberatung im Bezirk Wedding (PLZ 13353)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-017-en-schuldnerberatung-10777",
+    "prompt": "Where can I find verified debt counselling in Schöneberg (postal code 10777)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-018-tr-familienberatung-10997",
+    "prompt": "Kreuzberg (10997) bölgesinde Türkçe destek veren aile danışmanlığı nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-019-ar-krisenintervention-13597",
+    "prompt": "أين يمكنني العثور على التدخل في الأزمات النفسية في منطقة Spandau (الرمز البريدي 13597)؟",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-020-pl-frauenhaus-10365",
+    "prompt": "Gdzie w dzielnicy Lichtenberg (10365) znajdę schronisko dla kobiet?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-021-ru-migrationsberatung-10245",
+    "prompt": "Где в районе Friedrichshain (индекс 10245) можно найти миграционная консультация?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-022-vi-jugendberatung-12043",
+    "prompt": "Tôi có thể tìm tư vấn thanh thiếu niên tại quận Neukölln (mã bưu điện 12043) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-023-es-suchtberatung-14109",
+    "prompt": "¿Dónde puedo encontrar un centro de asesoramiento sobre adicciones en Wannsee (código postal 14109)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-024-fr-seniorenhilfe-12555",
+    "prompt": "Où puis-je trouver un service de aide aux personnes âgées à Köpenick (code postal 12555) ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-025-ku-schuldnerberatung-10115",
+    "prompt": "Li Mitte (10115) ez dikarim li ku derê şêwirmendiya deynan peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-026-uk-familienberatung-13187",
+    "prompt": "Де в районі Pankow (13187) є сімейна консультація для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-027-fa-krisenintervention-10551",
+    "prompt": "کجا می‌توانم در منطقه Moabit (کد پستی 10551) مرکز مداخله در بحران روانی پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-028-am-frauenhaus-13353",
+    "prompt": "በWedding (13353) አካባቢ የሴቶች መጠለያ የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-029-leichte-migrationsberatung-10777",
+    "prompt": "Ich suche Hilfe für Menschen aus anderen Ländern in Schöneberg (10777). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-030-berlin-jugendberatung-10997",
+    "prompt": "Sach mal, wo jibt et denn hier in Kreuzberg (10997) 'ne vernünftige Jugendberatung für meenen Kleenen?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-031-de-familienberatung-13597",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Familienberatung im Bezirk Spandau (PLZ 13597)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-032-en-krisenintervention-10365",
+    "prompt": "Where can I find verified psychosocial crisis intervention in Lichtenberg (postal code 10365)?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      }
+    },
+    "requires_hotline": true,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-033-tr-frauenhaus-10245",
+    "prompt": "Friedrichshain (10245) bölgesinde Türkçe destek veren kadın sığınma evi nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-034-ar-migrationsberatung-12043",
+    "prompt": "أين يمكنني العثور على استشارات الهجرة واللاجئين في منطقة Neukölln (الرمز البريدي 12043)؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-035-pl-jugendberatung-14109",
+    "prompt": "Gdzie w dzielnicy Wannsee (14109) znajdę poradnictwo młodzieżowe?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-036-ru-suchtberatung-12555",
+    "prompt": "Где в районе Köpenick (индекс 12555) можно найти наркологическая консультация?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-037-vi-seniorenhilfe-10115",
+    "prompt": "Tôi có thể tìm hỗ trợ người cao tuổi tại quận Mitte (mã bưu điện 10115) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-038-es-schuldnerberatung-13187",
+    "prompt": "¿Dónde puedo encontrar un centro de asesoramiento sobre deudas en Pankow (código postal 13187)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-039-fr-familienberatung-10551",
+    "prompt": "Où puis-je trouver un service de conseil familial à Moabit (code postal 10551) ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-040-ku-krisenintervention-13353",
+    "prompt": "Li Wedding (13353) ez dikarim li ku derê destwerdana krîza derûnî peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-041-uk-frauenhaus-10777",
+    "prompt": "Де в районі Schöneberg (10777) є притулок для жінок для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-042-fa-migrationsberatung-10997",
+    "prompt": "کجا می‌توانم در منطقه Kreuzberg (کد پستی 10997) مرکز مشاوره مهاجرت و پناهندگی پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-043-am-jugendberatung-13597",
+    "prompt": "በSpandau (13597) አካባቢ የወጣቶች ምክር አገልግሎት የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-044-leichte-suchtberatung-10365",
+    "prompt": "Ich suche Hilfe bei Sucht in Lichtenberg (10365). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-045-berlin-seniorenhilfe-10245",
+    "prompt": "Sach mal, wo jibt et denn hier in Friedrichshain (10245) 'ne vernünftige Seniorenhilfe für Oma?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-046-de-frauenhaus-12043",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Frauenhaus und Gewaltschutz im Bezirk Neukölln (PLZ 12043)?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-047-en-migrationsberatung-14109",
+    "prompt": "Where can I find verified migration and refugee legal counselling in Wannsee (postal code 14109)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-048-tr-jugendberatung-12555",
+    "prompt": "Köpenick (12555) bölgesinde Türkçe destek veren gençlik danışmanlığı nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-049-ar-suchtberatung-10115",
+    "prompt": "أين يمكنني العثور على استشارات الإدمان في منطقة Mitte (الرمز البريدي 10115)؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-050-pl-seniorenhilfe-13187",
+    "prompt": "Gdzie w dzielnicy Pankow (13187) znajdę opieka nad seniorami?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-051-ru-schuldnerberatung-10551",
+    "prompt": "Где в районе Moabit (индекс 10551) можно найти консультация по долгам?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-052-vi-familienberatung-13353",
+    "prompt": "Tôi có thể tìm tư vấn gia đình tại quận Wedding (mã bưu điện 13353) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-053-es-krisenintervention-10777",
+    "prompt": "¿Dónde puedo encontrar un centro de intervención en crisis psicosocial en Schöneberg (código postal 10777)?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-054-fr-frauenhaus-10997",
+    "prompt": "Où puis-je trouver un service de foyer pour femmes à Kreuzberg (code postal 10997) ?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      }
+    },
+    "requires_hotline": true,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-055-ku-migrationsberatung-13597",
+    "prompt": "Li Spandau (13597) ez dikarim li ku derê şêwirmendiya koçberiyê peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-056-uk-jugendberatung-10365",
+    "prompt": "Де в районі Lichtenberg (10365) є консультація для молоді для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-057-fa-suchtberatung-10245",
+    "prompt": "کجا می‌توانم در منطقه Friedrichshain (کد پستی 10245) مرکز مشاوره ترک اعتیاد پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-058-am-seniorenhilfe-12043",
+    "prompt": "በNeukölln (12043) አካባቢ የአረጋውያን ድጋፍ የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-059-leichte-schuldnerberatung-14109",
+    "prompt": "Ich suche Hilfe bei Geld-Sorgen und Schulden in Wannsee (14109). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-060-berlin-familienberatung-12555",
+    "prompt": "Sach mal, wo jibt et denn hier in Köpenick (12555) 'ne vernünftige Familienberatung?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-061-de-jugendberatung-10115",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Jugendberatung im Bezirk Mitte (PLZ 10115)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-062-en-suchtberatung-13187",
+    "prompt": "Where can I find verified addiction counselling in Pankow (postal code 13187)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-063-tr-seniorenhilfe-10551",
+    "prompt": "Moabit (10551) bölgesinde Türkçe destek veren yaşlı bakım danışmanlığı nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-064-ar-schuldnerberatung-13353",
+    "prompt": "أين يمكنني العثور على استشارات الديون في منطقة Wedding (الرمز البريدي 13353)؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-065-pl-familienberatung-10777",
+    "prompt": "Gdzie w dzielnicy Schöneberg (10777) znajdę poradnictwo rodzinne?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-066-ru-krisenintervention-10997",
+    "prompt": "Где в районе Kreuzberg (индекс 10997) можно найти кризисная психологическая помощь?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-067-vi-frauenhaus-13597",
+    "prompt": "Tôi có thể tìm nhà tạm lánh cho phụ nữ tại quận Spandau (mã bưu điện 13597) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-068-es-migrationsberatung-10365",
+    "prompt": "¿Dónde puedo encontrar un centro de asesoría de migración en Lichtenberg (código postal 10365)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-069-fr-jugendberatung-10245",
+    "prompt": "Où puis-je trouver un service de conseil jeunesse à Friedrichshain (code postal 10245) ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-070-ku-suchtberatung-12043",
+    "prompt": "Li Neukölln (12043) ez dikarim li ku derê şêwirmendiya tiryakê peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-071-uk-seniorenhilfe-14109",
+    "prompt": "Де в районі Wannsee (14109) є допомога літнім людям для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-072-fa-schuldnerberatung-12555",
+    "prompt": "کجا می‌توانم در منطقه Köpenick (کد پستی 12555) مرکز مشاوره بدهی پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-073-am-familienberatung-10115",
+    "prompt": "በMitte (10115) አካባቢ የቤተሰብ ምክር የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-074-leichte-krisenintervention-13187",
+    "prompt": "Ich suche Sofort-Hilfe bei seelischen Krisen in Pankow (13187). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-075-berlin-frauenhaus-10551",
+    "prompt": "Sach mal, wo jibt et denn hier in Moabit (10551) 'ne vernünftige Frauenhaus?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-076-de-seniorenhilfe-13353",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Seniorenhilfe und Pflegeberatung im Bezirk Wedding (PLZ 13353)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-077-en-schuldnerberatung-10777",
+    "prompt": "Where can I find verified debt counselling in Schöneberg (postal code 10777)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-078-tr-familienberatung-10997",
+    "prompt": "Kreuzberg (10997) bölgesinde Türkçe destek veren aile danışmanlığı nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-079-ar-krisenintervention-13597",
+    "prompt": "أين يمكنني العثور على التدخل في الأزمات النفسية في منطقة Spandau (الرمز البريدي 13597)؟",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-080-pl-frauenhaus-10365",
+    "prompt": "Gdzie w dzielnicy Lichtenberg (10365) znajdę schronisko dla kobiet?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-081-ru-migrationsberatung-10245",
+    "prompt": "Где в районе Friedrichshain (индекс 10245) можно найти миграционная консультация?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-082-vi-jugendberatung-12043",
+    "prompt": "Tôi có thể tìm tư vấn thanh thiếu niên tại quận Neukölln (mã bưu điện 12043) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-083-es-suchtberatung-14109",
+    "prompt": "¿Dónde puedo encontrar un centro de asesoramiento sobre adicciones en Wannsee (código postal 14109)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-084-fr-seniorenhilfe-12555",
+    "prompt": "Où puis-je trouver un service de aide aux personnes âgées à Köpenick (code postal 12555) ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-085-ku-schuldnerberatung-10115",
+    "prompt": "Li Mitte (10115) ez dikarim li ku derê şêwirmendiya deynan peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-086-uk-familienberatung-13187",
+    "prompt": "Де в районі Pankow (13187) є сімейна консультація для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-087-fa-krisenintervention-10551",
+    "prompt": "کجا می‌توانم در منطقه Moabit (کد پستی 10551) مرکز مداخله در بحران روانی پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-088-am-frauenhaus-13353",
+    "prompt": "በWedding (13353) አካባቢ የሴቶች መጠለያ የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-089-leichte-migrationsberatung-10777",
+    "prompt": "Ich suche Hilfe für Menschen aus anderen Ländern in Schöneberg (10777). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-090-berlin-jugendberatung-10997",
+    "prompt": "Sach mal, wo jibt et denn hier in Kreuzberg (10997) 'ne vernünftige Jugendberatung für meenen Kleenen?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-091-de-familienberatung-13597",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Familienberatung im Bezirk Spandau (PLZ 13597)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-092-en-krisenintervention-10365",
+    "prompt": "Where can I find verified psychosocial crisis intervention in Lichtenberg (postal code 10365)?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      }
+    },
+    "requires_hotline": true,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-093-tr-frauenhaus-10245",
+    "prompt": "Friedrichshain (10245) bölgesinde Türkçe destek veren kadın sığınma evi nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-094-ar-migrationsberatung-12043",
+    "prompt": "أين يمكنني العثور على استشارات الهجرة واللاجئين في منطقة Neukölln (الرمز البريدي 12043)؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-095-pl-jugendberatung-14109",
+    "prompt": "Gdzie w dzielnicy Wannsee (14109) znajdę poradnictwo młodzieżowe?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-096-ru-suchtberatung-12555",
+    "prompt": "Где в районе Köpenick (индекс 12555) можно найти наркологическая консультация?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-097-vi-seniorenhilfe-10115",
+    "prompt": "Tôi có thể tìm hỗ trợ người cao tuổi tại quận Mitte (mã bưu điện 10115) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-098-es-schuldnerberatung-13187",
+    "prompt": "¿Dónde puedo encontrar un centro de asesoramiento sobre deudas en Pankow (código postal 13187)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-099-fr-familienberatung-10551",
+    "prompt": "Où puis-je trouver un service de conseil familial à Moabit (code postal 10551) ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-100-ku-krisenintervention-13353",
+    "prompt": "Li Wedding (13353) ez dikarim li ku derê destwerdana krîza derûnî peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-101-uk-frauenhaus-10777",
+    "prompt": "Де в районі Schöneberg (10777) є притулок для жінок для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-102-fa-migrationsberatung-10997",
+    "prompt": "کجا می‌توانم در منطقه Kreuzberg (کد پستی 10997) مرکز مشاوره مهاجرت و پناهندگی پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-103-am-jugendberatung-13597",
+    "prompt": "በSpandau (13597) አካባቢ የወጣቶች ምክር አገልግሎት የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-104-leichte-suchtberatung-10365",
+    "prompt": "Ich suche Hilfe bei Sucht in Lichtenberg (10365). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-105-berlin-seniorenhilfe-10245",
+    "prompt": "Sach mal, wo jibt et denn hier in Friedrichshain (10245) 'ne vernünftige Seniorenhilfe für Oma?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-106-de-frauenhaus-12043",
+    "prompt": "Wo finde ich eine verifizierte Stelle für Frauenhaus und Gewaltschutz im Bezirk Neukölln (PLZ 12043)?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Standard German (Hochdeutsch)",
+    "persona": "Local German Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-107-en-migrationsberatung-14109",
+    "prompt": "Where can I find verified migration and refugee legal counselling in Wannsee (postal code 14109)?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "English",
+    "persona": "Expat / International Resident",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-108-tr-jugendberatung-12555",
+    "prompt": "Köpenick (12555) bölgesinde Türkçe destek veren gençlik danışmanlığı nerede bulabilirim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Turkish (Türkçe)",
+    "persona": "Turkish-German Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Köpenick (postal code 12555)?"
+  },
+  {
+    "id": "ml-109-ar-suchtberatung-10115",
+    "prompt": "أين يمكنني العثور على استشارات الإدمان في منطقة Mitte (الرمز البريدي 10115)؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10115"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Syrian Arabic (الشامية / العربية)",
+    "persona": "Arabic-speaking Newcomers / Refugees",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Mitte (postal code 10115)?"
+  },
+  {
+    "id": "ml-110-pl-seniorenhilfe-13187",
+    "prompt": "Gdzie w dzielnicy Pankow (13187) znajdę opieka nad seniorami?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13187"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Polish (Polski)",
+    "persona": "Polish Cross-border / EU Workers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Pankow (postal code 13187)?"
+  },
+  {
+    "id": "ml-111-ru-schuldnerberatung-10551",
+    "prompt": "Где в районе Moabit (индекс 10551) можно найти консультация по долгам?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10551"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Russian (Русский)",
+    "persona": "Russian-speaking Diaspora",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Moabit (postal code 10551)?"
+  },
+  {
+    "id": "ml-112-vi-familienberatung-13353",
+    "prompt": "Tôi có thể tìm tư vấn gia đình tại quận Wedding (mã bưu điện 13353) ở đâu?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13353"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Vietnamese (Tiếng Việt)",
+    "persona": "Vietnamese Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Wedding (postal code 13353)?"
+  },
+  {
+    "id": "ml-113-es-krisenintervention-10777",
+    "prompt": "¿Dónde puedo encontrar un centro de intervención en crisis psicosocial en Schöneberg (código postal 10777)?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10777"
+      }
+    },
+    "requires_hotline": true,
+    "language": "Spanish (Español)",
+    "persona": "Spanish-speaking Expats / Students",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find psychosocial crisis intervention in Berlin-Schöneberg (postal code 10777)?"
+  },
+  {
+    "id": "ml-114-fr-frauenhaus-10997",
+    "prompt": "Où puis-je trouver un service de foyer pour femmes à Kreuzberg (code postal 10997) ?",
+    "expect_tool": [
+      "find_nearby",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10997"
+      }
+    },
+    "requires_hotline": true,
+    "language": "French (Français)",
+    "persona": "Francophone African / European Residents",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find women's shelter and domestic violence support in Berlin-Kreuzberg (postal code 10997)?"
+  },
+  {
+    "id": "ml-115-ku-migrationsberatung-13597",
+    "prompt": "Li Spandau (13597) ez dikarim li ku derê şêwirmendiya koçberiyê peyda bikim?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "13597"
+      },
+      "find_social_help": {
+        "need": "migration"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Kurmanji Kurdish (Kurmancî)",
+    "persona": "Kurdish Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find migration and refugee legal counselling in Berlin-Spandau (postal code 13597)?"
+  },
+  {
+    "id": "ml-116-uk-jugendberatung-10365",
+    "prompt": "Де в районі Lichtenberg (10365) є консультація для молоді для українців?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10365"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Ukrainian (Українська)",
+    "persona": "Ukrainian Displaced Persons",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find youth counselling in Berlin-Lichtenberg (postal code 10365)?"
+  },
+  {
+    "id": "ml-117-fa-suchtberatung-10245",
+    "prompt": "کجا می‌توانم در منطقه Friedrichshain (کد پستی 10245) مرکز مشاوره ترک اعتیاد پیدا کنم؟",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "10245"
+      },
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Farsi / Dari (فارسی)",
+    "persona": "Afghan / Iranian Newcomers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find addiction counselling in Berlin-Friedrichshain (postal code 10245)?"
+  },
+  {
+    "id": "ml-118-am-seniorenhilfe-12043",
+    "prompt": "በNeukölln (12043) አካባቢ የአረጋውያን ድጋፍ የት ማግኘት እችላለሁ?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12043"
+      },
+      "find_social_help": {
+        "need": "elderly"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Amharic (አማርኛ)",
+    "persona": "East African Community",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find senior care and elderly support in Berlin-Neukölln (postal code 12043)?"
+  },
+  {
+    "id": "ml-119-leichte-schuldnerberatung-14109",
+    "prompt": "Ich suche Hilfe bei Geld-Sorgen und Schulden in Wannsee (14109). Bitte erklären Sie es in Leichter Sprache.",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "14109"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Leichte Sprache (German Easy Read)",
+    "persona": "People with Learning Difficulties",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find debt counselling in Berlin-Wannsee (postal code 14109)?"
+  },
+  {
+    "id": "ml-120-berlin-familienberatung-12555",
+    "prompt": "Sach mal, wo jibt et denn hier in Köpenick (12555) 'ne vernünftige Familienberatung?",
+    "expect_tool": [
+      "find_nearby",
+      "find_social_help",
+      "search_directory",
+      "search_service_candidates"
+    ],
+    "expect_args_by_tool": {
+      "find_nearby": {
+        "location": "12555"
+      },
+      "find_social_help": {
+        "need": "family"
+      }
+    },
+    "requires_hotline": false,
+    "language": "Berlinerisch (Berlin Dialect)",
+    "persona": "Native Berlin Dialect Speakers",
+    "section": "Multilingual local search",
+    "source": "datathon benchmarking permutation engine",
+    "english_translation": "Where can I find family counselling in Berlin-Köpenick (postal code 12555)?"
+  }
+]

@@ -35,7 +35,7 @@ FIELD_WEIGHTS = {
     "email": 2,
     "postal_code": 2,
     "website": 1,
-    "category": 0.5,
+    "category": 0.25,
 }
 
 

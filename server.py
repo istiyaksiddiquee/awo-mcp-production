@@ -220,9 +220,49 @@ def count_facilities_per_postal_code(
         directory whose postal code is malformed, and results per postal code.
         Inhabitants are estimates (a municipality's population spread evenly over its
         postal codes); say so when you compare codes within one city.
+        For questions about whole regions or all of Germany, use
+        facilities_per_inhabitant_by_region instead.
     """
 
     return to_json(sparql.count_facilities_per_postal_code(postal_code_prefix, order, limit))
+
+
+@mcp.tool()
+def facilities_per_inhabitant_by_region(
+    level: str = "region",
+    order: str = "lowest_per_10k",
+    postal_code_prefix: str = "",
+    limit: int = 10,
+    min_inhabitants: int = 50_000,
+) -> str:
+    """
+    Compare German regions by welfare facilities per inhabitant. Use it for questions such
+    as "Where in Germany are there the fewest facilities per inhabitant?", "Which regions
+    are best served?" or "Is the south better covered than the north?".
+
+    Regions are postal code prefixes, named by their towns with the most facilities.
+
+    Args:
+        level: "region" (default, two digits such as 48 = Münster, about 95 regions),
+            "zone" (first digit, 0-9) or "area" (three digits, about 680 areas).
+        order: "lowest_per_10k" (default, the least served first), "highest_per_10k" or
+            "most_facilities".
+        postal_code_prefix: Optional, limits to one part of Germany, e.g. "8" for the
+            regions 80-89 or "48" for the areas 480-489. Must be shorter than the level.
+        limit: How many regions to return (1-100, default 10).
+        min_inhabitants: Regions with fewer inhabitants are not ranked (default 50,000),
+            so tiny fragments such as a single special postal code do not top the list.
+
+    Returns:
+        JSON with totals and the average facilities per 10,000 inhabitants, and per region
+        its places, facilities, inhabitants, facilities per 10,000 inhabitants, inhabitants
+        per facility and density relative to the average. The directory does not list every
+        service, so say that a low value can also mean less published data.
+    """
+
+    return to_json(sparql.facilities_per_inhabitant_by_region(
+        level, order, postal_code_prefix, limit, min_inhabitants,
+    ))
 
 
 @mcp.tool()

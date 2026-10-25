@@ -30,6 +30,7 @@ SMOKE_ARGS = {
     "list_providers": {},
     "search_by_postal_code": {"postal_code": "10115"},
     "count_facilities_per_postal_code": {"postal_code_prefix": "10", "limit": 3},
+    "facilities_per_inhabitant_by_region": {"level": "zone", "limit": 3},
     "records_to_fix_first": {"city": "Berlin", "n": 3},
     "find_nearby": {"location": "13353", "radius_km": 1, "query": "Sucht, Alkohol"},
     "get_awo_details": {"iri": "https://civic-data.de/federated-directory#org-229a4e0b1081"},

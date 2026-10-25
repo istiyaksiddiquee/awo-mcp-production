@@ -1,0 +1,20 @@
+
+# Number of facilities per postal code and city (address must resolve to a schema:PostalAddress).
+# Values are trimmed; empty values are left out.
+# Params: none
+# Used by: SparqlClient.facilities_per_inhabitant_by_region (the towns that name a region)
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+
+SELECT ?postal_code ?city (COUNT(DISTINCT ?facility) AS ?count) WHERE {
+    ?facility a org:OrganizationalUnit ;
+              schema:address ?address .
+    ?address a schema:PostalAddress ;
+             schema:postalCode ?raw_postal_code ;
+             schema:addressLocality ?raw_city .
+    BIND(REPLACE(STR(?raw_postal_code), "^\\s+|\\s+$", "") AS ?postal_code)
+    BIND(REPLACE(STR(?raw_city), "^\\s+|\\s+$", "") AS ?city)
+    FILTER(?postal_code != "" && ?city != "")
+}
+GROUP BY ?postal_code ?city
+ORDER BY DESC(?count) ?postal_code ?city

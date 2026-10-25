@@ -154,7 +154,8 @@ service matches are substrings (`CONTAINS`, no regex). Statistics trim values wi
 | `count_entities_per_class.rq` | number of entities per dataset class | `check_completeness`, `generate_statistics` |
 | `count_filled_properties_per_class.rq` | entities with a non-blank value, per class and property | `check_completeness` |
 | `count_facilities_per_city.rq` | facilities per (trimmed) city | `generate_statistics` |
-| `count_facilities_per_postal_code.rq` | facilities per (trimmed) postal code; joined in Python with `data/einwohner_plz_de.csv` | `count_facilities_per_postal_code` |
+| `count_facilities_per_postal_code.rq` | facilities per (trimmed) postal code; joined in Python with `data/einwohner_plz_de.csv` | `count_facilities_per_postal_code`, `facilities_per_inhabitant_by_region` |
+| `count_facilities_per_postal_code_and_city.rq` | facilities per (trimmed) postal code and city | `facilities_per_inhabitant_by_region` (the towns that name a region) |
 | `count_facilities_per_category.rq` | facilities per category | `generate_statistics` |
 | `count_facilities_per_provider.rq` | facilities per provider name | `generate_statistics` |
 | `count_facility_links.rq` | total / with address / with provider | `generate_statistics` |

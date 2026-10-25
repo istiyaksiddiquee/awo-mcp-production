@@ -10,6 +10,7 @@ import csv
 import json
 import re
 import urllib.parse
+from collections import Counter
 from contextlib import contextmanager
 
 import pytest
@@ -476,6 +477,69 @@ def test_e2e_count_facilities_per_postal_code_density_orders_and_unknown_order()
         assert row["facilities_per_10k_inhabitants"] == round(row["facilities"] / row["inhabitants"] * 10_000, 2)
     unknown = call_json("count_facilities_per_postal_code", {"order": "pizza"}, once=False)
     assert "error" in unknown and "lowest_per_10k" in unknown["valid_orders"]
+
+
+# ---- facilities_per_inhabitant_by_region -----------------------------------------
+
+def graph_regions(graph, digits):
+    """Region -> (facilities, Counter of towns), read from the triples."""
+    regions = {}
+    for facility in facilities(graph):
+        address = address_of(graph, facility)
+        code = (value(graph, address, SCHEMA.postalCode) or "").strip() if address is not None else ""
+        if re.fullmatch(r"\d{5}", code):
+            found, towns = regions.setdefault(code[:digits], (set(), Counter()))
+            found.add(facility)
+            if town := (value(graph, address, SCHEMA.addressLocality) or "").strip():
+                towns[town] += 1
+    return {region: (len(found), towns) for region, (found, towns) in regions.items()}
+
+
+def test_e2e_facilities_per_inhabitant_by_region_counts_match_graph_and_census(graph):
+    result = call_json(
+        "facilities_per_inhabitant_by_region",
+        {"level": "region", "order": "most_facilities", "postal_code_prefix": "1", "limit": 100},
+    )
+    inhabitants = census_inhabitants()
+    expected = graph_regions(graph, 2)
+    assert result["facilities"] == sum(count for count, _ in expected.values()) > 0
+    assert result["inhabitants"] == sum(n for code, n in inhabitants.items() if code.startswith("1"))
+    # 11 holds only Berlin's 11011 (18,996 inhabitants), below the 50,000 default.
+    assert result["regions_below_min_inhabitants"] == 1
+    assert "11" not in [row["postal_code_prefix"] for row in result["results"]]
+    assert result["showing"] == len(result["results"]) == result["regions"] - 1
+    for row in result["results"]:
+        region = row["postal_code_prefix"]
+        count, towns = expected.get(region, (0, Counter()))
+        assert row["facilities"] == count, f"facility count of {region}"
+        assert row["inhabitants"] == sum(n for code, n in inhabitants.items() if code.startswith(region))
+        assert row["places"] == [town for town, _ in sorted(towns.items(), key=lambda t: (-t[1], t[0]))][:3]
+    counts = [row["facilities"] for row in result["results"]]
+    assert counts == sorted(counts, reverse=True), "most_facilities should sort by count, descending"
+
+
+def test_e2e_facilities_per_inhabitant_by_region_density_and_bad_input():
+    arguments = {"level": "region", "postal_code_prefix": "1", "limit": 100}
+    lowest = call_json("facilities_per_inhabitant_by_region", arguments)
+    highest = call_json("facilities_per_inhabitant_by_region", {**arguments, "order": "highest_per_10k"})
+    densities = [row["facilities_per_10k_inhabitants"] for row in lowest["results"]]
+    assert lowest["order"] == "lowest_per_10k" and densities == sorted(densities) and densities[0] == 0
+    assert [row["facilities_per_10k_inhabitants"] for row in highest["results"]] == sorted(densities, reverse=True)
+    average = lowest["facilities_per_10k_inhabitants"]
+    assert average == round(lowest["facilities"] / lowest["inhabitants"] * 10_000, 2)
+    for row in highest["results"]:
+        assert row["facilities_per_10k_inhabitants"] == round(row["facilities"] / row["inhabitants"] * 10_000, 2)
+        assert row["relative_to_average"] == round(row["facilities_per_10k_inhabitants"] / average, 2)
+        if row["facilities"]:
+            assert row["inhabitants_per_facility"] == round(row["inhabitants"] / row["facilities"])
+    everything = call_json("facilities_per_inhabitant_by_region", {**arguments, "min_inhabitants": 0}, once=False)
+    assert everything["regions_below_min_inhabitants"] == 0
+    assert "11" in [row["postal_code_prefix"] for row in everything["results"]]
+    for bad, key in [({"level": "state"}, "valid_levels"), ({"order": "pizza"}, "valid_orders")]:
+        assert key in call_json("facilities_per_inhabitant_by_region", bad, once=False)
+    too_long = call_json("facilities_per_inhabitant_by_region", {"level": "region", "postal_code_prefix": "48"}, once=False)
+    assert "error" in too_long and too_long["valid_levels"] == ["area"]
+    assert "error" in call_json("facilities_per_inhabitant_by_region", {"postal_code_prefix": "Berlin"}, once=False)
 
 
 # ---- records_to_fix_first --------------------------------------------------------

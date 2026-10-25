@@ -147,6 +147,18 @@
     "expect_args": {"postal_code_prefix": "13", "order": "lowest_per_10k"}
   },
   {
+    "id": "region-density-lowest-germany",
+    "prompt": "Where in Germany is the ratio of welfare organisations to inhabitants the lowest?",
+    "expect_tool": "facilities_per_inhabitant_by_region",
+    "expect_args": {}
+  },
+  {
+    "id": "region-density-zones-german",
+    "prompt": "Welche Postleitzahlzonen (0 bis 9) haben die meisten Einrichtungen pro Einwohner?",
+    "expect_tool": "facilities_per_inhabitant_by_region",
+    "expect_args": {"level": "zone", "order": "highest_per_10k"}
+  },
+  {
     "id": "fix-first-berlin",
     "prompt": "Which Berlin facility records should we fix first?",
     "expect_tool": "records_to_fix_first",

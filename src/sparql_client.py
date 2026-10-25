@@ -12,6 +12,7 @@ import os
 import re
 import urllib.parse
 import urllib.request
+from collections import Counter, defaultdict
 from pathlib import Path
 
 
@@ -31,6 +32,24 @@ INHABITANTS_NOTE = (
 POSTAL_CODE_ORDERS = ("most_facilities", "highest_per_10k", "lowest_per_10k")
 
 MAX_POSTAL_CODE_RESULTS = 100
+
+# Regions are postal code prefixes: 1 digit is a zone (0-9), 2 digits a region (about 95,
+# e.g. 48 = Münster), 3 digits an area (about 680).
+REGION_LEVELS = {"zone": 1, "region": 2, "area": 3}
+
+# Towns listed per region to name it.
+PLACES_PER_REGION = 3
+
+# Regions with fewer inhabitants are not ranked: they are fragments such as 11 (only Berlin's
+# 11011, the Bundestag) whose ratio says little.
+MIN_REGION_INHABITANTS = 50_000
+
+REGION_NOTE = (
+    "Facilities are what the directory lists, so a low density can also mean that providers "
+    "of that region publish less data. Inhabitants are census estimates summed over the "
+    "region's postal codes. Places are the towns with the most facilities in the region. "
+    "relative_to_average is the region's density divided by the average of all regions shown."
+)
 
 PLACEHOLDER = re.compile(r"\{\{(\w+)\}\}")
 
@@ -497,6 +516,23 @@ def per_10k(facilities: int, inhabitants: int | None) -> float | None:
     return round(facilities / inhabitants * 10_000, 2)
 
 
+def rank_by_order(rows: list[dict], order: str) -> list[dict]:
+    """Sort postal code or region rows for one of POSTAL_CODE_ORDERS."""
+
+    if order == "most_facilities":
+        return sorted(rows, key=lambda row: -row["facilities"])
+
+    # Rows without a known population have no density and are left out.
+    ranked = [row for row in rows if row["facilities_per_10k_inhabitants"] is not None]
+    if order == "highest_per_10k":
+        ranked.sort(key=lambda row: -row["facilities_per_10k_inhabitants"])
+    else:
+        # Fewest facilities per head first; among equals, the most inhabitants first.
+        ranked.sort(key=lambda row: (row["facilities_per_10k_inhabitants"], -row["inhabitants"]))
+
+    return ranked
+
+
 def load_query(query_name: str, /, **params: str) -> str:
     """
     Load sparql_queries/<query_name>.rq and fill its {{placeholders}}.
@@ -832,12 +868,8 @@ class SparqlClient:
         limit = max(1, min(int(limit), MAX_POSTAL_CODE_RESULTS))
         prefix = postal_code_prefix.strip()
 
-        counts = self.value_counts("count_facilities_per_postal_code")
+        counts, malformed = self.postal_code_counts()
         inhabitants = load_inhabitants()
-
-        # Values such as "(auf Anfrage)" or "8371" are not postal codes; only their total is reported.
-        malformed = {code: count for code, count in counts.items() if not POSTAL_CODE.match(code)}
-        counts = {code: count for code, count in counts.items() if code not in malformed}
 
         found = [
             {
@@ -852,17 +884,7 @@ class SparqlClient:
 
         total_facilities = sum(row["facilities"] for row in found)
         total_inhabitants = sum(row["inhabitants"] or 0 for row in found)
-
-        if order == "most_facilities":
-            ranked = sorted(found, key=lambda row: -row["facilities"])
-        else:
-            # Codes without a known population have no density and are left out.
-            ranked = [row for row in found if row["facilities_per_10k_inhabitants"] is not None]
-            if order == "highest_per_10k":
-                ranked.sort(key=lambda row: -row["facilities_per_10k_inhabitants"])
-            else:
-                # Fewest facilities per head first; among equals, the most inhabitants first.
-                ranked.sort(key=lambda row: (row["facilities_per_10k_inhabitants"], -row["inhabitants"]))
+        ranked = rank_by_order(found, order)
 
         return {
             "postal_code_prefix": prefix,
@@ -872,10 +894,119 @@ class SparqlClient:
             "facilities": total_facilities,
             "inhabitants": total_inhabitants,
             "facilities_per_10k_inhabitants": per_10k(total_facilities, total_inhabitants),
-            "facilities_with_malformed_postal_code": sum(malformed.values()),
+            "facilities_with_malformed_postal_code": malformed,
             "showing": min(limit, len(ranked)),
             "results": ranked[:limit],
             "note": INHABITANTS_NOTE,
+        }
+
+    def postal_code_counts(self) -> tuple[dict[str, int], int]:
+        """{five-digit postal code: facilities}, plus the number of facilities whose code is malformed."""
+
+        counts = self.value_counts("count_facilities_per_postal_code")
+
+        # Values such as "(auf Anfrage)" or "8371" are not postal codes; only their total is reported.
+        valid = {code: count for code, count in counts.items() if POSTAL_CODE.match(code)}
+
+        return valid, sum(counts.values()) - sum(valid.values())
+
+    def facilities_per_inhabitant_by_region(
+        self,
+        level: str = "region",
+        order: str = "lowest_per_10k",
+        postal_code_prefix: str = "",
+        limit: int = 10,
+        min_inhabitants: int = MIN_REGION_INHABITANTS,
+    ) -> dict:
+        """
+        Facilities per 10,000 inhabitants per postal region (a postal code prefix of 1-3 digits).
+
+        Sums count_facilities_per_postal_code over the region's codes, so the totals match
+        that tool; regions without any facility show up with 0. Regions with fewer than
+        min_inhabitants count towards the totals but are not ranked.
+        """
+
+        level = level.strip().casefold()
+        if level not in REGION_LEVELS:
+            return {"error": f"Unknown level '{level}'.", "valid_levels": list(REGION_LEVELS)}
+
+        order = order.strip().casefold()
+        if order not in POSTAL_CODE_ORDERS:
+            return {"error": f"Unknown order '{order}'.", "valid_orders": list(POSTAL_CODE_ORDERS)}
+
+        digits = REGION_LEVELS[level]
+        prefix = postal_code_prefix.strip()
+        if prefix and not prefix.isdigit():
+            return {"error": f"postal_code_prefix '{prefix}' must be digits, e.g. '8' or '48'."}
+        if len(prefix) >= digits:
+            finer = [name for name, size in REGION_LEVELS.items() if size > len(prefix)]
+            return {
+                "error": (
+                    f"postal_code_prefix '{prefix}' is already a single {level}. Use a finer "
+                    "level, or count_facilities_per_postal_code for single postal codes."
+                ),
+                "valid_levels": finer,
+            }
+
+        limit = max(1, min(int(limit), MAX_POSTAL_CODE_RESULTS))
+
+        counts, malformed = self.postal_code_counts()
+        inhabitants = load_inhabitants()
+
+        facilities = Counter()
+        people = Counter()
+        for code in set(counts) | set(inhabitants):
+            if code.startswith(prefix):
+                facilities[code[:digits]] += counts.get(code, 0)
+                people[code[:digits]] += inhabitants.get(code, 0)
+
+        towns = defaultdict(Counter)
+        for row in self.select("count_facilities_per_postal_code_and_city"):
+            code = row["postal_code"]
+            if POSTAL_CODE.match(code) and code.startswith(prefix):
+                towns[code[:digits]][row["city"]] += int(row["count"])
+
+        total_facilities = sum(facilities.values())
+        total_inhabitants = sum(people.values())
+        average = per_10k(total_facilities, total_inhabitants)
+
+        found = []
+        for region in sorted(facilities):
+            density = per_10k(facilities[region], people[region])
+            found.append({
+                "postal_code_prefix": region,
+                "places": [
+                    town for town, _ in sorted(towns[region].items(), key=lambda item: (-item[1], item[0]))
+                ][:PLACES_PER_REGION],
+                "facilities": facilities[region],
+                "inhabitants": people[region] or None,
+                "facilities_per_10k_inhabitants": density,
+                "inhabitants_per_facility": (
+                    round(people[region] / facilities[region]) if facilities[region] and people[region] else None
+                ),
+                "relative_to_average": (
+                    round(density / average, 2) if density is not None and average else None
+                ),
+            })
+
+        big_enough = [row for row in found if (row["inhabitants"] or 0) >= min_inhabitants]
+        ranked = rank_by_order(big_enough, order)
+
+        return {
+            "level": level,
+            "postal_code_prefix": prefix,
+            "order": order,
+            "regions": len(found),
+            "regions_without_facilities": sum(row["facilities"] == 0 for row in found),
+            "regions_below_min_inhabitants": len(found) - len(big_enough),
+            "min_inhabitants": min_inhabitants,
+            "facilities": total_facilities,
+            "inhabitants": total_inhabitants,
+            "facilities_per_10k_inhabitants": average,
+            "facilities_with_malformed_postal_code": malformed,
+            "showing": min(limit, len(ranked)),
+            "results": ranked[:limit],
+            "note": REGION_NOTE,
         }
 
     def facility_repository(self, city: str):

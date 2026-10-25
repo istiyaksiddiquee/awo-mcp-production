@@ -284,11 +284,11 @@ the graph's triples (rdflib, not the `.rq` files).
 
 | Test | Checks |
 |---|---|
-| `test_baseline_tools_are_listed` | none of the 17 tools in `SMOKE_ARGS` disappeared |
+| `test_baseline_tools_are_listed` | none of the 20 tools in `SMOKE_ARGS` disappeared |
 | `test_every_listed_tool_has_smoke_args` | **fails when someone adds a tool without registering it in `SMOKE_ARGS`** – the prompt to add tests |
-| `test_tool_metadata_is_llm_friendly` (×17) | docstring ≥ 20 chars, valid object schema, required ⊆ properties |
-| `test_tool_call_succeeds` (×17) | call with valid args returns no MCP error and non-empty output |
-| `test_tool_returns_valid_json_without_nan` (×16) | output parses as JSON; no bare `NaN` (`count_facilities` returns a plain number and is excluded) |
+| `test_tool_metadata_is_llm_friendly` (×20) | docstring ≥ 20 chars, valid object schema, required ⊆ properties |
+| `test_tool_call_succeeds` (×20) | call with valid args returns no MCP error and non-empty output |
+| `test_tool_returns_valid_json_without_nan` (×19) | output parses as JSON; no bare `NaN` (`count_facilities` returns a plain number and is excluded) |
 | `test_umlauts_are_not_escaped` | `ensure_ascii=False` works end-to-end |
 | `test_missing_required_argument_is_an_error` | error names the missing argument |
 | `test_wrong_argument_type_is_an_error` | wrong type rejected |
@@ -338,6 +338,8 @@ the server is switched to for one call).
 | `test_e2e_search_by_postal_code_partial_or_unknown_finds_nothing` | 4 or 6 digits, unknown code or a quote-breaking input → `[]` |
 | `test_e2e_count_facilities_per_postal_code_counts_match_graph_and_census` | prefix 10: total and per-code facility counts == the graph's; inhabitants == the census CSV; sorted by count; codes without facilities included |
 | `test_e2e_count_facilities_per_postal_code_density_orders_and_unknown_order` | `lowest_per_10k` ascending from 0, `highest_per_10k` the reverse; density == facilities / inhabitants × 10,000; unknown order → valid orders |
+| `test_e2e_facilities_per_inhabitant_by_region_counts_match_graph_and_census` | prefix 1, two-digit regions: total and per-region facility counts == the graph's; inhabitants == census sums; places == the graph's most frequent towns; region 11 (only 11011) below 50,000 inhabitants is not ranked |
+| `test_e2e_facilities_per_inhabitant_by_region_density_and_bad_input` | `lowest_per_10k` (default) ascending from 0, `highest_per_10k` the reverse; average, density, inhabitants per facility and `relative_to_average` recomputed; `min_inhabitants=0` ranks 11; unknown level/order, a prefix as long as the level, or a non-digit prefix → error |
 | `test_e2e_records_to_fix_first_ranks_only_the_city` | every Berlin facility ranked once; bucket and priority counts add up; ranks 1…n; high → medium → low |
 | `test_e2e_records_to_fix_first_bucket_filter_and_provider_batches` | `bucket=scope_check` returns exactly that bucket; provider batches cover every facility except scope-check/junk |
 | `test_e2e_find_nearby_matches_distances_from_the_graph` | 13353, 1 km: origin == average of its addresses; results == facilities within 1 km by haversine on the graph; distances match; nearest first |
@@ -390,7 +392,7 @@ in Python).
 | `test_check_completeness_consistent` | rows == dataset sizes; IRI never missing; cells and missing counts add up; percentages 0–100 |
 | `test_generate_statistics_consistent` | with + without address/provider == facility total; Berlin in `facilities_by_city` == `count_facilities`; per-provider and per-category sums are plausible |
 | `test_compare_facilities_equals_two_detail_lookups` | both sides == `get_facility_details` for each name, both non-empty |
-| `test_mcp_tool_returns_client_result` (×16) | every tool called over MCP returns exactly what `SparqlClient` returns (JSON round trip) |
+| `test_mcp_tool_returns_client_result` (×17) | every tool called over MCP returns exactly what `SparqlClient` returns (JSON round trip) |
 | `test_postal_code_origin_is_where_the_postal_code_is` | 10115 resolves to central Berlin |
 | `test_find_nearby_matches_independent_distance_check` (×2) | 10115 (1 km) and central Munich (1.5 km): result count == facilities within the radius from a plain coordinate query with distances in Python; results nearest first |
 | `test_find_nearby_query_only_narrows` | `query="Sucht"` finds some but not more than without a query |
@@ -446,6 +448,7 @@ tool call is scored.
 | `list_providers` | `list-providers`, `list-providers-german` | German "Träger" |
 | `search_by_postal_code` | `postal-code-exact-area`, `postal-code-german` | must pick the exact postal code search, not `find_nearby` |
 | `count_facilities_per_postal_code` | `postal-code-density`, `postal-code-underserved-german` | German "fewest per inhabitant" → `order=lowest_per_10k` with a prefix |
+| `facilities_per_inhabitant_by_region` | `region-density-lowest-germany`, `region-density-zones-german` | Germany-wide ratio question picks this tool, not the per-postcode one; German "Postleitzahlzonen" → `level=zone` |
 | `records_to_fix_first` | `fix-first-berlin`, `fix-first-outreach-by-provider` | optional `group_by="provider"` for provider outreach |
 | `find_nearby` | `nearby-postal-code`, `nearby-coordinates` | coordinates instead of a postal code |
 | `get_awo_details` | `awo-details-by-iri`, `awo-details-accessibility` | accessibility question; answer must contain the street |

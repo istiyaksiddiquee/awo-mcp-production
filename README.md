@@ -61,6 +61,7 @@ Tools never build query strings themselves. User input only reaches a query thro
 | `compare_facilities(facility_1, facility_2)` | `get_facility_details` for both names, side by side | "Compare Drehscheibe and Metropolitankapitel" |
 | `search_services(query)` | Services whose name, category or audience contains `query` | "Which services are there around Suchtberatung?" |
 | `find_social_help(need, limit, postal_code_prefix)` | Offers for a need (debt, housing, family, elderly, addiction, migration) with address and contacts; missing contacts are reported as not on record | "Ich habe Schulden, wo bekomme ich Hilfe?" |
+| `data_quality_report(organisation)` | Data quality scorecard per organisation (fill rate of phone, email, website, hours, category, address), what to improve, and a draft message to the organisation | "How good is the Caritas data and what should they fix?" |
 | `generate_statistics()` | Dataset sizes; facilities per city, category and provider; services per category and audience; how many facilities have an address or provider | "Give me statistics about the directory" |
 | `check_completeness()` | Missing values per dataset and column | "Which columns have missing values?" |
 | `detect_duplicates()` | Groups of entries that are identical except for their IRI | "Are there duplicate entries?" |

@@ -1,0 +1,44 @@
+# List every facility with the quality flags the organisation report counts: which key fields
+# are filled (blank values count as missing), plus the raw phone, address parts, provider name and
+# source link. Fields with several values give one flag per facility.
+# Params: none
+# Used by: SparqlClient.data_quality_report -> MCP tool data_quality_report
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX cdf: <https://civic-data.de/federated-directory#>
+
+SELECT ?facility
+       (SAMPLE(?provider_name_) AS ?provider)
+       (SAMPLE(?source_) AS ?source)
+       (SAMPLE(?telephone_) AS ?telephone)
+       (IF(COUNT(?email_) > 0, 1, 0) AS ?has_email)
+       (IF(COUNT(?homepage_) > 0, 1, 0) AS ?has_homepage)
+       (IF(COUNT(?opening_hours_) > 0, 1, 0) AS ?has_opening_hours)
+       (IF(COUNT(?category_) > 0, 1, 0) AS ?has_category)
+       (SAMPLE(?street_) AS ?street)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+WHERE {
+    ?facility a org:OrganizationalUnit .
+    OPTIONAL { ?facility schema:telephone ?telephone_ . FILTER(REGEX(STR(?telephone_), "\\S")) }
+    OPTIONAL { ?facility schema:email ?email_ . FILTER(REGEX(STR(?email_), "\\S")) }
+    OPTIONAL { ?facility foaf:homepage ?homepage_ . FILTER(REGEX(STR(?homepage_), "\\S")) }
+    OPTIONAL { ?facility schema:openingHours ?opening_hours_ . FILTER(REGEX(STR(?opening_hours_), "\\S")) }
+    OPTIONAL { ?facility schema:category ?category_ . FILTER(REGEX(STR(?category_), "\\S")) }
+    OPTIONAL { ?facility schema:mainEntityOfPage ?source_ }
+    OPTIONAL {
+        ?facility schema:parentOrganization ?provider_ .
+        ?provider_ a schema:Organization ;
+                   schema:name ?provider_name_ .
+    }
+    OPTIONAL {
+        ?facility schema:address ?address_ .
+        ?address_ a schema:PostalAddress .
+        OPTIONAL { ?address_ schema:streetAddress ?street_ . FILTER(REGEX(STR(?street_), "\\S")) }
+        OPTIONAL { ?address_ schema:postalCode ?postal_code_ . FILTER(REGEX(STR(?postal_code_), "\\S")) }
+        OPTIONAL { ?address_ schema:addressLocality ?city_ }
+    }
+}
+GROUP BY ?facility
+ORDER BY ?facility

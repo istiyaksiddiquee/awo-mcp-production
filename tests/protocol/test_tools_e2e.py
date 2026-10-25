@@ -15,6 +15,8 @@ import pytest
 from rdflib import Namespace, URIRef
 from rdflib.namespace import RDF
 
+from src.fix_first import decode_source_link
+from src.quality_report import UNKNOWN_ORIGIN
 from src.sparql_client import DATASETS, HELP_NEEDS, expand, haversine_km
 from tests.helpers import (
     LocalSparqlClient, load_graph, mcp_call, mcp_call_once, mcp_get_prompt, mcp_list_prompts,
@@ -280,6 +282,55 @@ def test_e2e_find_social_help_postal_prefix_and_unknown_need():
 
     unknown = call_json("find_social_help", {"need": "pizza"}, once=False)
     assert "error" in unknown and unknown["valid_needs"] == list(HELP_NEEDS), unknown
+
+
+# ---- data_quality_report ---------------------------------------------------------
+
+def graph_origins(graph):
+    """origin -> facilities, read from the triples: provider name, else source website, else unknown."""
+    origins = {}
+    for facility in facilities(graph):
+        name = None
+        for provider in graph.objects(facility, SCHEMA.parentOrganization):
+            if (provider, RDF.type, SCHEMA.Organization) in graph and value(graph, provider, SCHEMA.name):
+                name = value(graph, provider, SCHEMA.name).strip()
+        if name is None:
+            page = decode_source_link(value(graph, facility, SCHEMA.mainEntityOfPage))
+            name = urllib.parse.urlparse(page).netloc if page else ""
+        origins.setdefault(name or UNKNOWN_ORIGIN, set()).add(facility)
+    return origins
+
+
+def test_e2e_data_quality_report_overview_counts_every_facility_once(graph):
+    result = call_json("data_quality_report", {}, once=False)
+    origins = graph_origins(graph)
+    assert result["total_facilities"] == len(facilities(graph))
+    assert result["organisations"] == len(origins)
+    shown = {item["organisation"]: item["facilities"] for item in result["overview"]}
+    for name, count in shown.items():
+        assert count == len(origins[name]), f"{name}: {count} facilities, the graph has {len(origins[name])}"
+    sizes = [item["facilities"] for item in result["overview"]]
+    assert sizes == sorted(sizes, reverse=True), "largest organisation first"
+    assert all(0 <= item["score"] <= 100 for item in result["overview"])
+    if len(origins) <= 10:
+        assert sum(shown.values()) == len(facilities(graph)), "no facility lost or counted twice"
+
+
+def test_e2e_data_quality_report_one_organisation_matches_graph_and_unknown_name_errors(graph):
+    name, members = max(
+        ((n, f) for n, f in graph_origins(graph).items() if n != UNKNOWN_ORIGIN), key=lambda item: len(item[1])
+    )
+    result = call_json("data_quality_report", {"organisation": name}, once=False)
+    assert result["organisation"] == name and result["facilities"] == len(members)
+    for field, predicate in [("telephone", SCHEMA.telephone), ("email", SCHEMA.email)]:
+        missing = sum(1 for f in members if not any(str(v).strip() for v in graph.objects(f, predicate)))
+        assert result["completeness"][field]["missing"] == missing, (
+            f"{name}.{field}: {result['completeness'][field]['missing']} missing, the graph has {missing}"
+        )
+    assert result["draft_message"].startswith(f"Hello {name},")
+
+    unknown = call_json("data_quality_report", {"organisation": "Atlantis-Gibtsnicht"}, once=False)
+    assert "error" in unknown and unknown["known_organisations"], unknown
 
 
 # ---- generate_statistics ---------------------------------------------------------

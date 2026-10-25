@@ -209,5 +209,17 @@
     "prompt": "Ich suche Suchtberatungsstellen im Postleitzahlgebiet 10997, aber nur solche, bei denen eine Telefonnummer eingetragen ist.",
     "expect_tool": "search_directory",
     "expect_args": {"query": "sucht", "has_telephone": true}
+  },
+  {
+    "id": "quality-report-overview",
+    "prompt": "Which organisations have the most gaps in their data?",
+    "expect_tool": "data_quality_report",
+    "expect_args": {}
+  },
+  {
+    "id": "quality-report-caritas",
+    "prompt": "Schreibe mir einen Datenqualitätsbericht für Caritas: was fehlt und was sollten sie verbessern?",
+    "expect_tool": "data_quality_report",
+    "expect_args": {"organisation": "caritas"}
   }
 ]

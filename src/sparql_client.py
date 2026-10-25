@@ -841,6 +841,13 @@ class SparqlClient:
 
         return result
 
+    def data_quality_report(self, organisation: str = "") -> dict:
+        """Data quality overview of all organisations, or the full report of one."""
+
+        from src.quality_report import build_quality_report
+
+        return build_quality_report(self.select("list_facility_quality_flags"), organisation)
+
     def compare_facilities(self, facility_1: str, facility_2: str) -> list[dict]:
         """Compare two facilities by name."""
 

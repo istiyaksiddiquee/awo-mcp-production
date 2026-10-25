@@ -324,6 +324,8 @@ the server is switched to for one call).
 | `test_e2e_search_services_no_match_and_quotes_stay_literal` | no match and a quote-breaking query (`") or true or ("`-style) both give `[]` |
 | `test_e2e_find_social_help_matches_the_need_with_phones_first` | addiction: `total_matches` == the graph's services matching the need's terms; every result on topic; phone numbers first |
 | `test_e2e_find_social_help_postal_prefix_and_unknown_need` | prefix 109 narrows the debt results and every result starts with 109; "pizza" returns the valid needs |
+| `test_e2e_data_quality_report_overview_counts_every_facility_once` | `total_facilities` and the organisation count == the graph's; each organisation's facility count == the graph's (provider name, else source website, else unknown); largest first |
+| `test_e2e_data_quality_report_one_organisation_matches_graph_and_unknown_name_errors` | the largest organisation: facility count and missing phone/email == the graph's; draft starts with its name; an unknown name returns `known_organisations` |
 | `test_e2e_generate_statistics_dataset_sizes_match_graph` | dataset sizes == entities per RDF class in the graph |
 | `test_e2e_generate_statistics_city_counts_agree_with_count_facilities` | every `facilities_by_city` entry == `count_facilities` for that city |
 | `test_e2e_check_completeness_rows_match_dataset_sizes` | rows == dataset sizes; IRI never missing; missing cells == sum of columns |
@@ -434,6 +436,7 @@ tool call is scored.
 | `get_facility_details` | `facility-details`, `facility-details-who-runs-it` | quoted name in a casual question about the provider |
 | `search_services` | `search-services-sucht`, `search-services-catalogue-pflege` | catalogue search by a maintainer, not a person seeking help |
 | `find_social_help` | `find-help-debt`, `find-help-addiction-english` | need stated indirectly in English ("alcohol problem" → `addiction`) |
+| `data_quality_report` | `quality-report-overview`, `quality-report-caritas` | German request for a report on one organisation (`organisation: caritas`) |
 | `detect_duplicates` | `duplicates`, `duplicates-before-publishing` | "entered twice" instead of "duplicate" |
 | `check_completeness` | `completeness`, `completeness-missing-phone-german` | German question about one column (phone) |
 | `generate_statistics` | `statistics`, `statistics-top-city-and-category` | a concrete question the statistics answer, without the word "statistics" |

@@ -197,6 +197,7 @@ MCP_CASES = {
     "get_facility_details": ({"name": "Drehscheibe"}, "get_facility_details", ("Drehscheibe",)),
     "search_services": ({"query": "Suchtberatung"}, "search_services", ("Suchtberatung",)),
     "find_social_help": ({"need": "debt", "limit": 3}, "find_help", ("debt", 3)),
+    "data_quality_report": ({"organisation": ""}, "data_quality_report", ("",)),
     "detect_duplicates": ({}, "detect_duplicates", ()),
     "check_completeness": ({}, "check_completeness", ()),
     "generate_statistics": ({}, "generate_statistics", ()),

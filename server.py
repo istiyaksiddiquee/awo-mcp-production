@@ -272,6 +272,35 @@ def records_to_fix_first(
 
 
 @mcp.tool()
+def data_quality_report(organisation: str = "") -> str:
+    """
+    Data quality scorecard per organisation that provided records, for data
+    maintainers and network planners (not for people looking for help). Use
+    this when asked how good the data of an organisation is, which
+    organisations have the most gaps, what an organisation should improve, or
+    for a report or message to send to an organisation.
+
+    An organisation is the provider linked to a record or, without a link,
+    the website the record came from (for example www.caritas.de). Records
+    with neither are grouped as unknown origin. Counts cover the whole
+    directory.
+
+    Args:
+        organisation: Part of an organisation name. Leave empty for the
+            overview of the largest organisations. With a name you get the
+            fill rate of phone, email, website, opening hours, category,
+            street and postcode, known problems, what to improve, and a draft
+            message. The draft is only a draft: a person must read it and
+            decide whether to send it. Never claim it has been sent.
+
+    Returns:
+        JSON with the overview or the report, or an error with known names.
+    """
+
+    return to_json(sparql.data_quality_report(organisation))
+
+
+@mcp.tool()
 def find_nearby(
     location: str,
     radius_km: float = 2.0,

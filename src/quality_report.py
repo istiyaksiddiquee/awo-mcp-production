@@ -25,6 +25,19 @@ FIELDS = {
     "postal_code": "a postcode",
 }
 
+# How much a missing field matters to a person looking for help. The score is the weighted
+# average fill rate, and the advice lists the biggest weight x missing gaps first. The category
+# is rarely filled on the facility itself (it lives mostly on the offers), so it counts little.
+FIELD_WEIGHTS = {
+    "telephone": 3,
+    "opening_hours": 3,
+    "street": 3,
+    "email": 2,
+    "postal_code": 2,
+    "website": 1,
+    "category": 0.5,
+}
+
 
 def origin_of(row: dict) -> str:
     """Name of the organisation a record is attributed to."""
@@ -80,19 +93,30 @@ def score_organisation(rows: list[dict]) -> dict:
         "city_spelling_not_normalised": sum(1 for row in rows if city_spelling_problem(row)),
     }
 
-    score = round(sum(c["filled_percentage"] for c in completeness.values()) / len(FIELDS), 1)
+    weighted = sum(FIELD_WEIGHTS[field] * c["filled_percentage"] for field, c in completeness.items())
+    score = round(weighted / sum(FIELD_WEIGHTS.values()), 1)
 
-    return {"facilities": total, "score": score, "completeness": completeness, "problems": problems}
+    return {
+        "facilities": total,
+        "score": score,
+        "score_note": "Weighted average fill rate. Phone, opening hours and street weigh most, category least.",
+        "completeness": completeness,
+        "problems": problems,
+    }
 
 
 def improvements(report: dict, limit: int = 4) -> list[str]:
     """The biggest gaps first, as short sentences a maintainer can act on."""
 
     gaps = sorted(
-        ((c["missing"], field) for field, c in report["completeness"].items() if c["missing"]),
+        ((FIELD_WEIGHTS[field] * c["missing"], c["missing"], field)
+         for field, c in report["completeness"].items() if c["missing"]),
         reverse=True,
     )
-    advice = [f"Add {FIELDS[field]} for {missing} of {report['facilities']} records." for missing, field in gaps[:limit]]
+    advice = [
+        f"Add {FIELDS[field]} for {missing} of {report['facilities']} records."
+        for _, missing, field in gaps[:limit]
+    ]
 
     problems = report["problems"]
     if problems["phone_lost_leading_zero"]:
@@ -110,9 +134,11 @@ def draft_message(name: str, report: dict, advice: list[str]) -> str:
     """A short message to the organisation. It is a draft: a person reads and sends it."""
 
     lines = "\n".join(f"- {item}" for item in advice) or "- No gaps found."
+    # a website address is not an organisation name: greet the team behind it
+    greeting = f"Hello team at {name}," if "." in name and " " not in name else f"Hello {name},"
 
     return (
-        f"Hello {name},\n\n"
+        f"{greeting}\n\n"
         f"we checked the {report['facilities']} records attributed to your organisation in the "
         f"federated directory of social support services. Data quality score: {report['score']} of 100.\n\n"
         f"What would help most:\n{lines}\n\n"

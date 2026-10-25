@@ -327,7 +327,7 @@ def test_e2e_data_quality_report_one_organisation_matches_graph_and_unknown_name
         assert result["completeness"][field]["missing"] == missing, (
             f"{name}.{field}: {result['completeness'][field]['missing']} missing, the graph has {missing}"
         )
-    assert result["draft_message"].startswith(f"Hello {name},")
+    assert result["draft_message"].startswith((f"Hello {name},", f"Hello team at {name},"))
 
     unknown = call_json("data_quality_report", {"organisation": "Atlantis-Gibtsnicht"}, once=False)
     assert "error" in unknown and unknown["known_organisations"], unknown

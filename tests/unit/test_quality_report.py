@@ -58,12 +58,26 @@ def test_problems_phone_and_city_spelling_are_reported():
     assert not city_spelling_problem(row(city="Berlin")) and not city_spelling_problem(row(city="Hamburg"))
 
 
-def test_biggest_gap_comes_first_and_draft_names_the_organisation():
+def test_advice_ranks_by_importance_times_gap_and_draft_names_the_organisation():
+    # email is missing more often (4), but opening hours weigh more (3 x 3 = 9 > 2 x 4 = 8)
     rows = [row(provider="A", hours=0, email=0) for _ in range(3)] + [row(provider="A", email=0)]
     result = build_quality_report(rows, "a")
-    assert result["what_to_improve"][0].startswith("Add an email address for 4 of 4")
+    assert result["what_to_improve"][0].startswith("Add opening hours for 3 of 4")
+    assert result["what_to_improve"][1].startswith("Add an email address for 4 of 4")
     assert result["draft_message"].startswith("Hello A,")
     assert "4 records" in result["draft_message"]
+
+
+def test_category_gap_costs_less_than_a_missing_phone_number():
+    no_category = score_organisation([row(category=0), row(category=0)])["score"]
+    no_phone = score_organisation([row(telephone=None), row(telephone=None)])["score"]
+    assert no_category > no_phone, "a missing category must weigh less than a missing phone number"
+    assert no_category > 90
+
+
+def test_greeting_for_a_website_origin_addresses_the_team():
+    result = build_quality_report([row(source=CARITAS)], "caritas")
+    assert result["draft_message"].startswith("Hello team at www.caritas.de,")
 
 
 def test_overview_is_sorted_by_size_and_limited():

@@ -1,0 +1,17 @@
+# Number of facilities per postal code (address must resolve to a schema:PostalAddress).
+# Values are trimmed; empty values are left out.
+# Params: none
+# Used by: SparqlClient.count_facilities_per_postal_code -> MCP tool count_facilities_per_postal_code
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+
+SELECT ?value (COUNT(DISTINCT ?facility) AS ?count) WHERE {
+    ?facility a org:OrganizationalUnit ;
+              schema:address ?address .
+    ?address a schema:PostalAddress ;
+             schema:postalCode ?raw .
+    BIND(REPLACE(STR(?raw), "^\\s+|\\s+$", "") AS ?value)
+    FILTER(?value != "")
+}
+GROUP BY ?value
+ORDER BY DESC(?count) ?value

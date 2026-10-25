@@ -23,7 +23,7 @@ Germany* (SoSuSe), a public SPARQL endpoint run by CorrelAid:
 ```text
 AI assistant (Claude Desktop, Claude Code, ...)
    │  MCP over stdio
-server.py               8 MCP tools; each calls one SparqlClient method and returns JSON
+server.py               20 MCP tools; each calls one SparqlClient method and returns JSON
    │
 src/sparql_client.py    loads a query file, fills in the parameters, sends it,
    │                    turns the result rows into the tool's answer
@@ -39,13 +39,15 @@ Tools never build query strings themselves. User input only reaches a query thro
 
 | Path | What it is |
 |---|---|
-| `server.py` | The MCP server. Defines the 8 tools. Their docstrings are what the LLM reads to choose a tool, so keep them descriptive. |
+| `server.py` | The MCP server. Defines the tools and the `find_help` prompt. Tool docstrings are what the LLM reads to choose a tool, so keep them descriptive. |
 | `src/sparql_client.py` | `SparqlClient`: one method per tool, plus `load_query()` and the `DATASETS` definition (RDF class and columns of facilities, addresses, services, providers). |
+| `src/fix_first.py` | Ranking logic behind `records_to_fix_first` (buckets, scores, provider batches). Works on a pandas table that `SparqlClient.facility_repository()` builds from one query. |
 | `sparql_queries/` | The SPARQL queries, one `.rq` file each, with a fixed naming scheme and header ([QUERIES.md](QUERIES.md)). You can paste them into the endpoint's web UI. |
 | `src/legacy/` | The old pandas/CSV implementation. **Not used by the server.** Kept as the reference that the offline parity tests compare the SPARQL queries against. |
 | `data/directory.ttl` | RDF snapshot of the directory. The offline tests run the real queries on it, so CI needs no network. |
-| `data/*Schema.csv` | The original AWO CSV export. Used only by the legacy tests; its headers define the `DATASETS` columns. |
+| `data/*Schema.csv` | The original AWO CSV export. Used only by the tests; its headers define the `DATASETS` columns. |
 | `tests/` | Five test layers (unit, MCP protocol, live API, LLM connection, LLM tool-calling evals) and a live test dashboard. See [TEST.md](TEST.md). |
+| `benchmarking/` | LLM benchmark against the real server: multilingual, professional and smoke case suites, an agent loop over MCP, deterministic evaluators, optional rubric judge, tool-profile comparisons and leaderboards. See [benchmarking/README.md](benchmarking/README.md). |
 | `.github/workflows/` | CI: offline tests on every push, live API tests and LLM evals on manual trigger. |
 | `doc/` | Datathon presentations. |
 
@@ -58,12 +60,33 @@ Tools never build query strings themselves. User input only reaches a query thro
 | `get_facility_details(name)` | Details, address and provider of facilities whose name contains `name` | "Tell me about the facility Drehscheibe" |
 | `compare_facilities(facility_1, facility_2)` | `get_facility_details` for both names, side by side | "Compare Drehscheibe and Metropolitankapitel" |
 | `search_services(query)` | Services whose name, category or audience contains `query` | "Which services are there around Suchtberatung?" |
+| `find_social_help(need, limit, postal_code_prefix)` | Offers for a need (debt, housing, family, elderly, addiction, migration) with address and contacts; missing contacts are reported as not on record | "Ich habe Schulden, wo bekomme ich Hilfe?" |
+| `data_quality_report(organisation)` | Data quality scorecard per organisation (fill rate of phone, email, website, hours, category, address), what to improve, and a draft message to the organisation | "How good is the Caritas data and what should they fix?" |
 | `generate_statistics()` | Dataset sizes; facilities per city, category and provider; services per category and audience; how many facilities have an address or provider | "Give me statistics about the directory" |
 | `check_completeness()` | Missing values per dataset and column | "Which columns have missing values?" |
 | `detect_duplicates()` | Groups of entries that are identical except for their IRI | "Are there duplicate entries?" |
+| `list_providers()` | All provider organisations with homepage and address | "Which providers are in the directory?" |
+| `search_by_postal_code(postal_code)` | Facilities with a five-digit postal code, with address and contact data | "Which facilities are in 10115?" |
+| `count_facilities_per_postal_code(postal_code_prefix, order, limit)` | Facilities, inhabitants and facilities per 10,000 inhabitants per postal code, including codes without any facility; `order` is `most_facilities`, `highest_per_10k` or `lowest_per_10k`. Inhabitants come from `data/einwohner_plz_de.csv` and are estimates (a municipality's population spread evenly over its codes) | "Which postal codes starting with 13 have the fewest facilities per inhabitant?" |
+| `facilities_per_inhabitant_by_region(level, order, postal_code_prefix, limit, min_inhabitants)` | Regions compared by facilities per 10,000 inhabitants: `level` is `zone` (first postcode digit), `region` (two digits, default) or `area` (three digits). Each region is named by its towns with the most facilities and carries inhabitants per facility and its density relative to the average. Regions under `min_inhabitants` (default 10,000) are counted but not ranked | "Where in Germany is the ratio of organisations to inhabitants the lowest?" |
+| `records_to_fix_first(city, ...)` | Facility records of a city ranked by how much fixing them matters, with reasons, provider batches and a projected coverage gain | "Which Berlin records should we fix first?" |
+| `find_nearby(location, radius_km, query, accessible_only, limit)` | Facilities within a radius of a postal code or `"latitude,longitude"`, nearest first, with distance, contacts and opening hours. `query` takes comma-separated terms and matches any of them | "Addiction counselling near 13353?" |
+| `get_awo_details(iri)` | Address, map link, contacts, opening hours, accessibility, offers, provider and source link for one facility | "What are the opening hours of this facility?" |
+| `get_entity_card(iri)` | Every recorded field of a facility, service, provider or address, the missing fields, syntax-only quality notes (e.g. a phone without leading 0) and typed links (service → facility → address/provider) | "What exactly does the directory record for this entry?" |
+| `search_service_candidates(query, limit, offset)` | Services matching name/category/audience, each with the facility or provider that runs it and its postal code and locality; paged | "Which debt counselling services are there, and which office runs each?" |
+| `search_directory(query, provider, has_telephone, limit, offset)` | Facilities where every term matches their own text, address or a linked service; provider and phone filters; paged hits, with totals and missing-field counts over all matches | "How many debt counselling facilities in Kreuzberg have a phone number?" |
 
 Matching is case-insensitive (`GIESSEN` finds `Gießen`). City matches are **exact**, so
 `Berlin` does not include `Berlin-Mitte`. Name and service searches are substring matches.
+
+## Prompts
+
+| Prompt | What it does |
+|---|---|
+| **Find help near me** (`find_help(situation, location)`) | Takes a need in plain words ("I drink too much") and a postal code or place. Explains the kinds of help that exist and the usual first step, recommends 3–5 nearby places (who each is for, address, directions, hours, and a 1–5 relevance rating), lists who to contact first, and notes what the directory doesn't cover. Puts emergency numbers first if someone is in danger, and never invents contact details. |
+
+Ratings measure how good a first step a place is for the stated need, based on the directory
+data (fit, distance, reachability, access), not the quality of the service.
 
 ## Setup
 
@@ -74,7 +97,7 @@ git clone git@github.com:istiyaksiddiquee/awo-mcp-production.git
 cd awo-mcp-production
 conda create -n awo-mcp python=3.11   # or: python3.11 -m venv .venv
 conda activate awo-mcp                # or: source .venv/bin/activate
-pip install -r requirements.txt       # the server only needs `mcp`
+pip install -r requirements.txt       # the server needs `mcp` and `pandas`
 pip install -r requirements-dev.txt   # only for running the tests
 ```
 

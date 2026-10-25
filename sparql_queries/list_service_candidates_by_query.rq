@@ -1,0 +1,57 @@
+# List services whose name, category or audience contains the given text (same match as
+# list_services_by_query.rq), each with the entity that schema:provider links to (a
+# facility or a provider organisation), that entity's name and type, and the postal code
+# and locality of its address.
+# Match: case-insensitive substring. {{query}} must already be casefolded. Missing
+# fields count as "" (so an empty {{query}} matches every service). Multi-valued audience
+# is joined with "; ". ?provider_count > 1 means the service links to several entities
+# (the sampled one is returned).
+# Params: {{query}}
+# Used by: SparqlClient.search_service_candidates -> MCP tool search_service_candidates
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+
+SELECT ?service
+       (SAMPLE(?name_) AS ?name)
+       (SAMPLE(?category_) AS ?category)
+       (GROUP_CONCAT(DISTINCT STR(?audience_); separator="; ") AS ?audience)
+       (SAMPLE(?provider_) AS ?provider)
+       (COUNT(DISTINCT ?provider_) AS ?provider_count)
+       (SAMPLE(?provider_type_) AS ?provider_type)
+       (SAMPLE(?provider_name_) AS ?provider_name)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+WHERE {
+    {
+        SELECT DISTINCT ?service WHERE {
+            ?service a schema:Service .
+            OPTIONAL { ?service schema:name ?match_name }
+            OPTIONAL { ?service schema:category ?match_category }
+            OPTIONAL { ?service schema:audience ?match_audience }
+            FILTER(
+                CONTAINS(REPLACE(LCASE(COALESCE(STR(?match_name), "")), "ß", "ss"), "{{query}}")
+                || CONTAINS(REPLACE(LCASE(COALESCE(STR(?match_category), "")), "ß", "ss"), "{{query}}")
+                || CONTAINS(REPLACE(LCASE(COALESCE(STR(?match_audience), "")), "ß", "ss"), "{{query}}")
+            )
+        }
+    }
+    OPTIONAL { ?service schema:name ?name_ }
+    OPTIONAL { ?service schema:category ?category_ }
+    OPTIONAL { ?service schema:audience ?audience_ }
+    OPTIONAL {
+        ?service schema:provider ?provider_ .
+        OPTIONAL {
+            ?provider_ a ?provider_type_ .
+            FILTER(?provider_type_ IN (org:OrganizationalUnit, schema:Organization))
+        }
+        OPTIONAL { ?provider_ schema:name ?provider_name_ }
+        OPTIONAL {
+            ?provider_ schema:address ?address_ .
+            ?address_ a schema:PostalAddress .
+            OPTIONAL { ?address_ schema:postalCode ?postal_code_ }
+            OPTIONAL { ?address_ schema:addressLocality ?city_ }
+        }
+    }
+}
+GROUP BY ?service
+ORDER BY ?service

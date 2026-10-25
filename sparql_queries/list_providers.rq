@@ -1,5 +1,5 @@
 # List all provider organisations with name, homepage and address.
-# Params: (none)
+# Params: none
 # Used by: SparqlClient.list_providers -> MCP tool list_providers
 PREFIX schema: <http://schema.org/>
 PREFIX foaf:   <http://xmlns.com/foaf/0.1/>

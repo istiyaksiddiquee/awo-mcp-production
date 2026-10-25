@@ -7,10 +7,22 @@
     "answer_contains": ["646"]
   },
   {
+    "id": "count-muenchen-german",
+    "prompt": "Wie viele soziale Einrichtungen gibt es eigentlich in München?",
+    "expect_tool": "count_facilities",
+    "expect_args": {"city": "München"}
+  },
+  {
     "id": "search-facilities-berlin",
     "prompt": "List the AWO facilities located in Berlin with their contact info.",
     "expect_tool": "search_facilities",
     "expect_args": {"city": "Berlin"}
+  },
+  {
+    "id": "search-facilities-koeln-german",
+    "prompt": "Kannst du mir alle Einrichtungen in Köln mit Adresse, Telefonnummer und E-Mail auflisten?",
+    "expect_tool": "search_facilities",
+    "expect_args": {"city": "Köln"}
   },
   {
     "id": "facility-details",
@@ -20,14 +32,45 @@
     "answer_contains": ["Drehscheibe"]
   },
   {
+    "id": "facility-details-who-runs-it",
+    "prompt": "Someone told me about \"Haus Lübecker Straße\". Who runs it and what's the address?",
+    "expect_tool": "get_facility_details",
+    "expect_args": {"name": "Lübecker"},
+    "answer_contains": ["Lübecker"]
+  },
+  {
     "id": "search-services-sucht",
     "prompt": "Which services do you offer around Suchtberatung?",
     "expect_tool": "search_services",
     "expect_args": {"query": "Suchtberatung"}
   },
   {
+    "id": "search-services-catalogue-pflege",
+    "prompt": "I'm cleaning up our service catalogue. Search it for everything with \"Pflege\" in it and show me the service names and categories.",
+    "expect_tool": "search_services",
+    "expect_args": {"query": "Pflege"}
+  },
+  {
+    "id": "find-help-debt",
+    "prompt": "Ich habe Schulden und weiß nicht weiter. Wo bekomme ich Hilfe?",
+    "expect_tool": "find_social_help",
+    "expect_args": {"need": "debt"}
+  },
+  {
+    "id": "find-help-addiction-english",
+    "prompt": "I think my brother has an alcohol problem. Where can he get help?",
+    "expect_tool": "find_social_help",
+    "expect_args": {"need": "addiction"}
+  },
+  {
     "id": "duplicates",
     "prompt": "Are there any exact duplicate rows in the AWO datasets?",
+    "expect_tool": "detect_duplicates",
+    "expect_args": {}
+  },
+  {
+    "id": "duplicates-before-publishing",
+    "prompt": "Before we publish the directory: can you check whether any facility, address or provider was entered twice?",
     "expect_tool": "detect_duplicates",
     "expect_args": {}
   },
@@ -38,8 +81,20 @@
     "expect_args": {}
   },
   {
+    "id": "completeness-missing-phone-german",
+    "prompt": "Bei wie viel Prozent der Einrichtungen fehlt die Telefonnummer?",
+    "expect_tool": "check_completeness",
+    "expect_args": {}
+  },
+  {
     "id": "statistics",
     "prompt": "Give me overall statistics about the AWO datasets.",
+    "expect_tool": "generate_statistics",
+    "expect_args": {}
+  },
+  {
+    "id": "statistics-top-city-and-category",
+    "prompt": "Which city has the most facilities in the directory, and what is the most common facility category?",
     "expect_tool": "generate_statistics",
     "expect_args": {}
   },
@@ -48,5 +103,147 @@
     "prompt": "Compare the facilities Drehscheibe and Metropolitankapitel.",
     "expect_tool": "compare_facilities",
     "expect_args": {"facility_1": "Drehscheibe", "facility_2": "Metropolitankapitel"}
+  },
+  {
+    "id": "compare-side-by-side",
+    "prompt": "My dad can't decide between Drehscheibe and Haus Lübecker Straße. Can you put the two side by side for me?",
+    "expect_tool": "compare_facilities",
+    "expect_args": {"facility_1": "Drehscheibe", "facility_2": "Lübecker"}
+  },
+  {
+    "id": "list-providers",
+    "prompt": "Which provider organisations are in the directory? Please include their websites.",
+    "expect_tool": "list_providers",
+    "expect_args": {}
+  },
+  {
+    "id": "list-providers-german",
+    "prompt": "Welche Träger sind im Verzeichnis eingetragen und wo sitzen sie?",
+    "expect_tool": "list_providers",
+    "expect_args": {}
+  },
+  {
+    "id": "postal-code-exact-area",
+    "prompt": "Show me only the facilities whose address is in postal code 10115, not the surrounding area.",
+    "expect_tool": "search_by_postal_code",
+    "expect_args": {"postal_code": "10115"}
+  },
+  {
+    "id": "postal-code-german",
+    "prompt": "Welche Einrichtungen haben die Postleitzahl 13353?",
+    "expect_tool": "search_by_postal_code",
+    "expect_args": {"postal_code": "13353"}
+  },
+  {
+    "id": "postal-code-density",
+    "prompt": "Which postal codes starting with 10 have the most facilities per 10,000 inhabitants?",
+    "expect_tool": "count_facilities_per_postal_code",
+    "expect_args": {"postal_code_prefix": "10", "order": "highest_per_10k"}
+  },
+  {
+    "id": "postal-code-underserved-german",
+    "prompt": "In welchen Berliner Postleitzahlgebieten (13…) gibt es im Verhältnis zur Einwohnerzahl die wenigsten Einrichtungen?",
+    "expect_tool": "count_facilities_per_postal_code",
+    "expect_args": {"postal_code_prefix": "13", "order": "lowest_per_10k"}
+  },
+  {
+    "id": "region-density-lowest-germany",
+    "prompt": "Where in Germany is the ratio of welfare organisations to inhabitants the lowest?",
+    "expect_tool": "facilities_per_inhabitant_by_region",
+    "expect_args": {}
+  },
+  {
+    "id": "region-density-zones-german",
+    "prompt": "Welche Postleitzahlzonen (0 bis 9) haben die meisten Einrichtungen pro Einwohner?",
+    "expect_tool": "facilities_per_inhabitant_by_region",
+    "expect_args": {"level": "zone", "order": "highest_per_10k"}
+  },
+  {
+    "id": "fix-first-berlin",
+    "prompt": "Which Berlin facility records should we fix first?",
+    "expect_tool": "records_to_fix_first",
+    "expect_args": {"city": "Berlin"}
+  },
+  {
+    "id": "fix-first-outreach-by-provider",
+    "prompt": "We want to email providers next week about the gaps in their Berlin records. Group what needs fixing by provider, so we send one request each.",
+    "expect_tool": "records_to_fix_first",
+    "expect_args": {"city": "Berlin", "group_by": "provider"}
+  },
+  {
+    "id": "nearby-postal-code",
+    "prompt": "I need addiction counselling near postal code 13353. What is close by?",
+    "expect_tool": "find_nearby",
+    "expect_args": {"location": "13353"}
+  },
+  {
+    "id": "nearby-coordinates",
+    "prompt": "Which social services are within 1 km of 52.5446,13.3592?",
+    "expect_tool": "find_nearby",
+    "expect_args": {"location": "52.54"}
+  },
+  {
+    "id": "awo-details-by-iri",
+    "prompt": "What are the opening hours and contact details of the facility https://civic-data.de/federated-directory#org-229a4e0b1081?",
+    "expect_tool": "get_awo_details",
+    "expect_args": {"iri": "org-229a4e0b1081"},
+    "answer_contains": ["WIGWAM"]
+  },
+  {
+    "id": "awo-details-accessibility",
+    "prompt": "I use a wheelchair. Can I get into the facility https://civic-data.de/federated-directory#org-229a4e0b1081, and where exactly is it?",
+    "expect_tool": "get_awo_details",
+    "expect_args": {"iri": "org-229a4e0b1081"},
+    "answer_contains": ["Stromstraße"]
+  },
+  {
+    "id": "entity-card-by-iri",
+    "prompt": "Which opening hours and accessibility information does the directory record for https://civic-data.de/federated-directory#org-34e986356c61? List only what is recorded.",
+    "expect_tool": "get_entity_card",
+    "expect_args": {"iri": "org-34e986356c61"},
+    "answer_contains": ["11"]
+  },
+  {
+    "id": "entity-card-service-to-office",
+    "prompt": "Welche Einrichtung bietet das Angebot https://civic-data.de/federated-directory#service-04b4dec19d58 an, und welche Kontaktdaten sind dort eingetragen?",
+    "expect_tool": "get_entity_card",
+    "expect_args": {"iri": "service-04b4dec19d58"},
+    "answer_contains": ["Frauenladen"]
+  },
+  {
+    "id": "service-candidates-with-office",
+    "prompt": "Find debt counselling services (Schuldnerberatung) and tell me which office runs each one and where it is.",
+    "expect_tool": "search_service_candidates",
+    "expect_args": {"query": "schuldner"}
+  },
+  {
+    "id": "service-candidates-senioren-german",
+    "prompt": "Welche Angebote für Senioren gibt es im Verzeichnis, und welche Stelle bietet jeweils das Angebot an?",
+    "expect_tool": "search_service_candidates",
+    "expect_args": {"query": "senior"}
+  },
+  {
+    "id": "directory-count-with-phone",
+    "prompt": "How many debt counselling (Schuldner) facility records in Berlin-Kreuzberg have a telephone number on record?",
+    "expect_tool": "search_directory",
+    "expect_args": {"query": "schuldner"}
+  },
+  {
+    "id": "directory-sucht-with-phone-german",
+    "prompt": "Ich suche Suchtberatungsstellen im Postleitzahlgebiet 10997, aber nur solche, bei denen eine Telefonnummer eingetragen ist.",
+    "expect_tool": "search_directory",
+    "expect_args": {"query": "sucht", "has_telephone": true}
+  },
+  {
+    "id": "quality-report-overview",
+    "prompt": "Which organisations have the most gaps in their data?",
+    "expect_tool": "data_quality_report",
+    "expect_args": {}
+  },
+  {
+    "id": "quality-report-caritas",
+    "prompt": "Schreibe mir einen Datenqualitätsbericht für Caritas: was fehlt und was sollten sie verbessern?",
+    "expect_tool": "data_quality_report",
+    "expect_args": {"organisation": "caritas"}
   }
 ]

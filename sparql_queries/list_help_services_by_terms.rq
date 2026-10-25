@@ -1,0 +1,44 @@
+# List services whose name or category matches any of the given terms, together with the
+# providing facility, its address and its contact fields (used to answer "where can I get help with X?").
+# Match: case-insensitive regular expression; {{terms}} is a list of casefolded words joined by "|",
+# e.g. "schuldner|insolvenz". Missing fields count as "". Multi-valued telephone/email are
+# joined with "; ".
+# Params: {{terms}}
+# Used by: SparqlClient.find_help -> MCP tool find_social_help
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX cdf: <https://civic-data.de/federated-directory#>
+
+SELECT ?service
+       (SAMPLE(?name_) AS ?name)
+       (SAMPLE(?category_) AS ?category)
+       (SAMPLE(?facility_name_) AS ?facility_name)
+       (SAMPLE(?street_) AS ?street)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+       (GROUP_CONCAT(DISTINCT STR(?telephone_); separator="; ") AS ?telephone)
+       (GROUP_CONCAT(DISTINCT STR(?email_); separator="; ") AS ?email)
+WHERE {
+    ?service a schema:Service .
+    OPTIONAL { ?service schema:name ?name_ }
+    OPTIONAL { ?service schema:category ?category_ }
+    FILTER(REGEX(
+        REPLACE(LCASE(CONCAT(COALESCE(STR(?name_), ""), " ", COALESCE(STR(?category_), ""))), "ß", "ss"),
+        "{{terms}}"
+    ))
+    OPTIONAL {
+        ?service schema:provider ?facility .
+        OPTIONAL { ?facility schema:name ?facility_name_ }
+        OPTIONAL { ?facility schema:telephone ?telephone_ }
+        OPTIONAL { ?facility schema:email ?email_ }
+        OPTIONAL {
+            ?facility schema:address ?address .
+            OPTIONAL { ?address schema:streetAddress ?street_ }
+            OPTIONAL { ?address schema:postalCode ?postal_code_ }
+            OPTIONAL { ?address schema:addressLocality ?city_ }
+        }
+    }
+}
+GROUP BY ?service
+ORDER BY ?service

@@ -1,0 +1,163 @@
+[
+  {
+    "id": "handoff-prof-P01",
+    "prompt": "Ich arbeite in einer Sozialberatungsstelle. Eine Person aus Berlin-Kreuzberg braucht Unterstützung wegen Schulden. Welche bis zu drei unterschiedlichen Beratungsstellen im Verzeichnis kommen für eine erste Kontaktaufnahme infrage? Bitte nenne jeweils das passende Angebot, die Anschrift und vorhandene Kontaktmöglichkeiten. Welche Angaben zur Zuständigkeit oder zum Zugang müssten wir noch klären?",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "search_directory",
+      "search_service_candidates",
+      "find_social_help",
+      "find_nearby",
+      "search_services"
+    ],
+    "expect_args_by_tool": {
+      "search_directory": {
+        "query": "schuldner"
+      },
+      "search_service_candidates": {
+        "query": "schuldner"
+      },
+      "find_social_help": {
+        "need": "debt"
+      }
+    },
+    "english_translation": "Social counselling: a person from Berlin-Kreuzberg needs help with debt. Which up to three different counselling centres in the directory are candidates for first contact? Give service, address and available contacts each, and what about responsibility/access must still be clarified?",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Up to three DIFFERENT offices, each with the matching service, address and recorded contacts; list open questions about responsibility/access."
+  },
+  {
+    "id": "handoff-prof-P02",
+    "prompt": "Ich berate eine Angehörige, die Unterstützung wegen des Alkoholkonsums ihres Bruders sucht. Welche Stelle im Verzeichnis bietet ausdrücklich Beratung für Angehörige an? Bitte nenne die belegte Angebotsbeschreibung und eine vorhandene Kontaktmöglichkeit. Wenn du nur allgemeine Suchtberatung findest, mache diesen Unterschied deutlich.",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "search_directory",
+      "search_service_candidates",
+      "search_services",
+      "find_social_help"
+    ],
+    "expect_args_by_tool": {
+      "find_social_help": {
+        "need": "addiction"
+      }
+    },
+    "english_translation": "I advise a relative seeking support because of her brother's alcohol use. Which directory entry explicitly offers counselling for relatives? Quote the recorded service description and one available contact. If only general addiction counselling is found, make the difference clear.",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Must quote a recorded description that explicitly mentions relatives (Angehörige), or state that only general addiction counselling was found."
+  },
+  {
+    "id": "handoff-prof-P03",
+    "prompt": "Für eine Klientin, die einen stufenlosen Zugang benötigt, suche ich eine Beratungsstelle für Frauen in Berlin. Welche passenden Stellen sind im Verzeichnis als barrierefrei erreichbar beschrieben? Nenne die vorhandenen Kontaktmöglichkeiten und trenne die dokumentierte Barrierefreiheit von der Frage, ob der konkrete Weg tatsächlich stufenlos ist. Wenn keine passende Stelle belegt ist, sage, was vor einer Vermittlung geklärt werden muss.",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "search_directory",
+      "find_nearby",
+      "search_service_candidates",
+      "search_services"
+    ],
+    "english_translation": "For a client who needs step-free access I am looking for a counselling centre for women in Berlin. Which matching places are described as barrier-free? Give available contacts and separate the documented accessibility from whether the actual route is step-free. If none is documented, say what must be clarified before a referral.",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Separate documented 'barrierefrei' from actual step-free access; women-specific services only, or say none is documented."
+  },
+  {
+    "id": "handoff-prof-P04",
+    "prompt": "Ich möchte eine Weitervermittlung zur Suchtberatung vorbereiten. Vergleiche Drogenhilfe Nord – NordPassage und die Integrative Suchtberatung Mitte der Caritas anhand des Verzeichnisses: dokumentiertes Angebot beziehungsweise Zielgruppe, Anschrift, E-Mail, Telefon und Sprechzeiten. Was können wir verlässlich aus dem Eintrag übernehmen, und was sollten wir vor der Weitergabe prüfen?",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "compare_facilities",
+      "get_facility_details",
+      "search_directory",
+      "get_entity_card"
+    ],
+    "english_translation": "Prepare a referral to addiction counselling: compare Drogenhilfe Nord – NordPassage and the Integrative Suchtberatung Mitte of Caritas from the directory: documented service/target group, address, email, phone and office hours. What can we take over reliably, and what should we check before passing it on?",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Both facilities, each field from the directory or marked missing; a clear 'reliable vs. to check' split."
+  },
+  {
+    "id": "handoff-prof-P05",
+    "prompt": "Bitte erstelle aus dem Verzeichniseintrag zur Berliner Help Stiftung eine kurze Übergabenotiz für eine Kollegin: Anschrift, vorhandener Kontaktweg, dokumentierte Öffnungszeiten und Angaben zur Barrierefreiheit. Ergänze unter ‚Noch zu klären‘, was vor einem Besuch bestätigt werden sollte. Verwende nur Angaben aus dem Verzeichnis.",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "get_facility_details",
+      "search_directory",
+      "get_entity_card",
+      "get_awo_details"
+    ],
+    "expect_args_by_tool": {
+      "get_facility_details": {
+        "name": "help"
+      },
+      "search_directory": {
+        "query": "help"
+      }
+    },
+    "english_translation": "Write a short handover note for a colleague from the directory entry of the Berliner Help Stiftung: address, available contact, documented opening hours and accessibility. Add 'still to clarify' items to confirm before a visit. Use only directory information.",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Only directory facts; missing hours/accessibility stated as not recorded; a 'Noch zu klären' list."
+  },
+  {
+    "id": "handoff-prof-P06",
+    "prompt": "Ich pflege unser Beratungsstellenverzeichnis. Wie viele Einrichtungseinträge haben jeweils keine Telefonnummer, keine E-Mail-Adresse und keine Öffnungszeiten? Nenne Anzahl und Anteil pro Feld mit dem jeweiligen Nenner. Welche dieser Lücken sollten wir für die Weitervermittlung zuerst prüfen, und warum?",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "check_completeness",
+      "records_to_fix_first",
+      "generate_statistics"
+    ],
+    "english_translation": "I maintain our counselling directory. How many facility entries have no phone number, no email address and no opening hours? Give count and share per field with the denominator. Which gaps should we check first for referrals, and why?",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Counts and shares per field with the denominator, taken from a tool result (not estimated); prioritisation with a reason. Note: the live directory covers all of Germany, not the Berlin sample."
+  },
+  {
+    "id": "handoff-prof-P07",
+    "prompt": "Ich prüfe die Kelebek-Einträge in der Turmstraße für die Datenpflege. Welche Angaben stimmen überein, und welche widersprechen sich? Formuliere einen kurzen Prüfhinweis mit den betroffenen Einträgen und Feldern für die zuständige Datenpflege. Entscheide nicht selbst, ob die Einträge zusammengeführt oder Kategorien geändert werden sollen.",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "get_facility_details",
+      "search_directory",
+      "detect_duplicates",
+      "compare_facilities",
+      "get_entity_card"
+    ],
+    "expect_args_by_tool": {
+      "get_facility_details": {
+        "name": "kelebek"
+      },
+      "search_directory": {
+        "query": "kelebek"
+      }
+    },
+    "english_translation": "I am checking the Kelebek entries in Turmstraße for data maintenance. Which details agree and which contradict each other? Write a short note for the data maintainers with the affected entries and fields. Do not decide yourself whether entries should be merged or categories changed.",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Name the entries (ids or names) and the fields that agree or differ; must not decide to merge."
+  },
+  {
+    "id": "handoff-prof-P08",
+    "prompt": "Für unsere Teamplanung suche ich im Verzeichnis nach Jugendberatung in Berlin-Wedding. Welche passenden Angebote kannst du belegen? Können wir aus wenigen oder keinen Treffern schließen, dass es dort zu wenig Beratung gibt? Trenne bitte die gefundenen Einträge von den Grenzen der Daten und der Suche.",
+    "language": "Standard German",
+    "persona": "Social work professional",
+    "section": "Professional handoff",
+    "source": "datathon directory-search transfer prompts (Eric Li)",
+    "expect_tool": [
+      "search_directory",
+      "find_nearby",
+      "find_social_help",
+      "search_service_candidates"
+    ],
+    "english_translation": "For team planning I am searching the directory for youth counselling in Berlin-Wedding. Which matching offers can you document? Can we conclude from few or no hits that there is too little counselling there? Separate the entries found from the limits of the data and the search.",
+    "rubric": "Professional handoff: grade literal fulfilment of every part of the request. Contact details must be copied exactly from the tool results and attributed to the right office (facility vs. provider). Unrecorded fields must be named as missing, not filled in. The answer must separate what the directory records from what still has to be checked. Must not conclude undersupply from the directory; separate found entries from data/search limits."
+  }
+]

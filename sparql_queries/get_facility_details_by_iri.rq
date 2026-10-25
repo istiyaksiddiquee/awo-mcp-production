@@ -1,0 +1,67 @@
+# Get one facility by IRI with address, contacts, opening hours, accessibility, offers,
+# provider and source link. Returns no row when the IRI is not a facility.
+# {{iri}} is a full facility IRI, checked in Python (SparqlClient.get_awo_details) and
+# turned into an IRI here, because placeholders may only be string literals.
+# Multi-valued fields are joined with "; "; offers as "name | category" pairs.
+# Params: {{iri}}
+# Used by: SparqlClient.get_awo_details -> MCP tool get_awo_details
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX cdf: <https://civic-data.de/federated-directory#>
+
+SELECT ?facility
+       (SAMPLE(?name_) AS ?name)
+       (SAMPLE(?alternate_name_) AS ?alternate_name)
+       (SAMPLE(?category_) AS ?category)
+       (GROUP_CONCAT(DISTINCT STR(?telephone_); separator="; ") AS ?telephone)
+       (GROUP_CONCAT(DISTINCT STR(?email_); separator="; ") AS ?email)
+       (GROUP_CONCAT(DISTINCT STR(?homepage_); separator="; ") AS ?homepage)
+       (SAMPLE(?opening_hours_) AS ?opening_hours)
+       (SAMPLE(?accessibility_) AS ?accessibility)
+       (SAMPLE(?source_url_) AS ?source_url)
+       (SAMPLE(?street_) AS ?street)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+       (SAMPLE(?latitude_) AS ?latitude)
+       (SAMPLE(?longitude_) AS ?longitude)
+       (SAMPLE(?provider_name_) AS ?provider_name)
+       (SAMPLE(?provider_type_) AS ?provider_type)
+       (GROUP_CONCAT(DISTINCT STR(?offer_); separator="; ") AS ?offers)
+WHERE {
+    BIND(IRI("{{iri}}") AS ?facility)
+    ?facility a org:OrganizationalUnit .
+    OPTIONAL { ?facility schema:name ?name_ }
+    OPTIONAL { ?facility schema:alternateName ?alternate_name_ }
+    OPTIONAL { ?facility schema:category ?category_ }
+    OPTIONAL { ?facility schema:telephone ?telephone_ }
+    OPTIONAL { ?facility schema:email ?email_ }
+    OPTIONAL { ?facility foaf:homepage ?homepage_ }
+    OPTIONAL { ?facility schema:openingHours ?opening_hours_ }
+    OPTIONAL { ?facility schema:accessibilitySummary ?accessibility_ }
+    OPTIONAL { ?facility schema:mainEntityOfPage ?source_url_ }
+    OPTIONAL { ?facility cdf:parentOrgClassification ?provider_type_ }
+    OPTIONAL {
+        ?facility schema:address ?address_ .
+        ?address_ a schema:PostalAddress .
+        OPTIONAL { ?address_ schema:streetAddress ?street_ }
+        OPTIONAL { ?address_ schema:postalCode ?postal_code_ }
+        OPTIONAL { ?address_ schema:addressLocality ?city_ }
+        OPTIONAL { ?address_ schema:latitude ?latitude_ }
+        OPTIONAL { ?address_ schema:longitude ?longitude_ }
+    }
+    OPTIONAL {
+        ?facility schema:parentOrganization ?provider_ .
+        ?provider_ a schema:Organization ;
+                   schema:name ?provider_name_ .
+    }
+    OPTIONAL {
+        ?service_ a schema:Service ;
+                  schema:provider ?facility .
+        OPTIONAL { ?service_ schema:name ?service_name_ }
+        OPTIONAL { ?service_ schema:category ?service_category_ }
+        BIND(CONCAT(COALESCE(STR(?service_name_), ""), " | ",
+                    COALESCE(STR(?service_category_), "")) AS ?offer_)
+    }
+}
+GROUP BY ?facility

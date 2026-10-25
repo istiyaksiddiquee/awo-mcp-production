@@ -3,7 +3,7 @@
 Uses an in-memory MCP client against server.py (no LLM, no network): conftest.py swaps
 the server's SPARQL client for one that runs the real queries on data/directory.ttl. Result
 correctness is checked in tests/unit/test_sparql_parity.py (offline) and tests/api/ (live).
-When you add a tool, add an entry to SMOKE_ARGS below.
+When you add a tool, add an entry to SMOKE_ARGS below and two tests to test_tools_e2e.py.
 """
 
 import asyncio
@@ -21,12 +21,22 @@ SMOKE_ARGS = {
     "search_facilities": {"city": "Berlin"},
     "get_facility_details": {"name": "Drehscheibe"},
     "search_services": {"query": "Suchtberatung"},
+    "find_social_help": {"need": "debt", "limit": 3},
+    "data_quality_report": {"organisation": ""},
     "detect_duplicates": {},
     "check_completeness": {},
     "generate_statistics": {},
     "compare_facilities": {"facility_1": "Drehscheibe", "facility_2": "Metropolitankapitel"},
     "list_providers": {},
     "search_by_postal_code": {"postal_code": "10115"},
+    "count_facilities_per_postal_code": {"postal_code_prefix": "10", "limit": 3},
+    "facilities_per_inhabitant_by_region": {"level": "zone", "limit": 3},
+    "records_to_fix_first": {"city": "Berlin", "n": 3},
+    "find_nearby": {"location": "13353", "radius_km": 1, "query": "Sucht, Alkohol"},
+    "get_awo_details": {"iri": "https://civic-data.de/federated-directory#org-229a4e0b1081"},
+    "get_entity_card": {"iri": "https://civic-data.de/federated-directory#org-34e986356c61"},
+    "search_service_candidates": {"query": "Schuldner", "limit": 3},
+    "search_directory": {"query": "Schuldner", "has_telephone": True},
 }
 JSON_TOOLS = [t for t in SMOKE_ARGS if t != "count_facilities"]
 
@@ -48,7 +58,7 @@ def test_every_listed_tool_has_smoke_args(tools):
     assert not untested, (
         f"new tool(s) {untested} have no entry in SMOKE_ARGS "
         "(tests/protocol/test_server.py). Add valid arguments so they get tested, "
-        "and add an eval case in tests/evals/cases.json."
+        "and add two eval cases in tests/evals/cases.json."
     )
 
 

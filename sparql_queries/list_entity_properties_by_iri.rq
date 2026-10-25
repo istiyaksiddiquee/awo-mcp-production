@@ -1,0 +1,20 @@
+# List every recorded property of one entity (facility, service, provider or address),
+# with its RDF type(s). One row per (type, property, value); an entity without properties
+# still returns its type row. ?value_is_iri is "true" for links to other entities.
+# {{iri}} is a full entity IRI, checked in Python (SparqlClient.get_entity_card) and
+# turned into an IRI here, because placeholders may only be string literals.
+# Params: {{iri}}
+# Used by: SparqlClient.get_entity_card -> MCP tool get_entity_card
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?type ?property ?value ?value_is_iri
+WHERE {
+    BIND(IRI("{{iri}}") AS ?entity)
+    ?entity a ?type .
+    OPTIONAL {
+        ?entity ?property ?value .
+        FILTER(?property != rdf:type)
+        BIND(IF(isIRI(?value), "true", "false") AS ?value_is_iri)
+    }
+}
+ORDER BY ?type ?property ?value

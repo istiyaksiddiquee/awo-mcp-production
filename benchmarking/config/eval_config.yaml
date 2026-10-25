@@ -1,0 +1,42 @@
+version: "2.0"
+suite_name: "AWO MCP server benchmark (federated directory of social support services)"
+
+# The MCP server under test. "python" means the interpreter running the benchmark.
+mcp:
+  transport: "stdio"            # stdio | streamable_http | inprocess
+  stdio:
+    command: "python"
+    args: ["server.py"]          # relative to the repository root
+  streamable_http:
+    url: "http://localhost:8000/mcp"   # e.g. the Docker deployment (MCP_TRANSPORT=streamable-http)
+  tool_timeout_seconds: 60
+
+agent:
+  max_steps: 6                  # model turns per case (tool calls + final answer)
+
+defaults:
+  suites: ["smoke", "citizen", "professional"]
+  models: "oracle"
+  tool_profiles: ["all"]
+  runs: 1
+  concurrency: 4
+
+retry_policy:
+  max_retries: 3
+  initial_backoff_seconds: 1.0
+  max_backoff_seconds: 16.0
+  backoff_multiplier: 2.0
+  jitter: true
+
+# Which server tools a model may use. Comparing profiles shows what a set of tools adds
+# (the datathon "directory-search" study compared the original tools, + 2 and + 3 tools).
+# include: only these tools; exclude: every tool except these; neither: every tool.
+tool_profiles:
+  all: {}
+  baseline:
+    exclude: ["get_entity_card", "search_service_candidates", "search_directory"]
+  v2:
+    exclude: ["search_directory"]
+  datathon_original:
+    include: ["count_facilities", "detect_duplicates", "search_facilities", "get_facility_details",
+              "search_services", "check_completeness", "generate_statistics", "compare_facilities"]

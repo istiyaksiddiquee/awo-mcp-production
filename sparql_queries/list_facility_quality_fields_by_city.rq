@@ -1,0 +1,65 @@
+# List the facilities of a city with every field the data quality ranking looks at.
+# Match: case-insensitive exact city. {{city}} must already be casefolded ("ß" counts as "ss").
+# Address columns are only bound when the link resolves to a schema:PostalAddress.
+# Multi-valued fields are joined with "; ".
+# Params: {{city}}
+# Used by: SparqlClient.records_to_fix_first -> MCP tool records_to_fix_first
+PREFIX schema: <http://schema.org/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX cdf: <https://civic-data.de/federated-directory#>
+
+SELECT ?facility
+       (SAMPLE(?name_) AS ?name)
+       (GROUP_CONCAT(DISTINCT STR(?alternate_name_); separator="; ") AS ?alternate_name)
+       (GROUP_CONCAT(DISTINCT STR(?telephone_); separator="; ") AS ?telephone)
+       (GROUP_CONCAT(DISTINCT STR(?email_); separator="; ") AS ?email)
+       (GROUP_CONCAT(DISTINCT STR(?homepage_); separator="; ") AS ?homepage)
+       (GROUP_CONCAT(DISTINCT STR(?main_page_); separator="; ") AS ?main_page)
+       (GROUP_CONCAT(DISTINCT STR(?category_); separator="; ") AS ?category)
+       (GROUP_CONCAT(DISTINCT STR(?service_description_); separator="; ") AS ?service_description)
+       (GROUP_CONCAT(DISTINCT STR(?audience_); separator="; ") AS ?audience)
+       (GROUP_CONCAT(DISTINCT STR(?accessibility_); separator="; ") AS ?accessibility)
+       (GROUP_CONCAT(DISTINCT STR(?opening_hours_); separator="; ") AS ?opening_hours)
+       (SAMPLE(?parent_classification_) AS ?parent_classification)
+       (SAMPLE(?address_) AS ?address)
+       (SAMPLE(?street_) AS ?street)
+       (SAMPLE(?postal_code_) AS ?postal_code)
+       (SAMPLE(?city_) AS ?city)
+       (SAMPLE(?provider_) AS ?provider)
+WHERE {
+    {
+        SELECT DISTINCT ?facility WHERE {
+            ?facility a org:OrganizationalUnit ;
+                      schema:address ?match_address .
+            ?match_address a schema:PostalAddress ;
+                           schema:addressLocality ?match_city .
+            FILTER(REPLACE(LCASE(STR(?match_city)), "ß", "ss") = "{{city}}")
+        }
+    }
+    OPTIONAL { ?facility schema:name ?name_ }
+    OPTIONAL { ?facility schema:alternateName ?alternate_name_ }
+    OPTIONAL { ?facility schema:telephone ?telephone_ }
+    OPTIONAL { ?facility schema:email ?email_ }
+    OPTIONAL { ?facility foaf:homepage ?homepage_ }
+    OPTIONAL { ?facility schema:mainEntityOfPage ?main_page_ }
+    OPTIONAL { ?facility schema:category ?category_ }
+    OPTIONAL { ?facility schema:availableService ?service_description_ }
+    OPTIONAL { ?facility schema:audience ?audience_ }
+    OPTIONAL { ?facility schema:accessibilitySummary ?accessibility_ }
+    OPTIONAL { ?facility schema:openingHours ?opening_hours_ }
+    OPTIONAL { ?facility cdf:parentOrgClassification ?parent_classification_ }
+    OPTIONAL {
+        ?facility schema:address ?address_ .
+        ?address_ a schema:PostalAddress .
+        OPTIONAL { ?address_ schema:streetAddress ?street_ }
+        OPTIONAL { ?address_ schema:postalCode ?postal_code_ }
+        OPTIONAL { ?address_ schema:addressLocality ?city_ }
+    }
+    OPTIONAL {
+        ?facility schema:parentOrganization ?provider_ .
+        ?provider_ a schema:Organization .
+    }
+}
+GROUP BY ?facility
+ORDER BY ?facility

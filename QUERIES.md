@@ -140,8 +140,13 @@ service matches are substrings (`CONTAINS`, no regex). Statistics trim values wi
 |---|---|---|
 | `count_facilities_by_city.rq` | `?count` of facilities in a city | `count_facilities` |
 | `list_facilities_by_city.rq` | facility + address + contact rows for a city | `search_facilities` |
+| `list_facilities_by_postal_code.rq` | facility + address + contact rows for a postal code | `search_by_postal_code` |
+| `list_providers.rq` | providers with homepage and address | `list_providers`, `records_to_fix_first` |
 | `list_facility_details_by_name.rq` | facility details, address and provider for a name substring | `get_facility_details`, `compare_facilities` |
+| `list_facility_quality_fields_by_city.rq` | every field the data quality ranking checks, for the facilities of a city | `records_to_fix_first` |
 | `list_services_by_query.rq` | services whose name/category/audience contains the query | `search_services` |
+| `list_help_services_by_terms.rq` | services whose name/category matches any need term, with provider facility, address and contacts | `find_help` (tool `find_social_help`) |
+| `list_facility_quality_flags.rq` | every facility with filled-field flags, phone, address parts, provider name and source link | `data_quality_report` |
 | `list_duplicate_facilities.rq` | groups of facilities identical in all CSV columns except the IRI | `detect_duplicates` |
 | `list_duplicate_addresses.rq` | same for addresses | `detect_duplicates` |
 | `list_duplicate_services.rq` | same for services | `detect_duplicates` |
@@ -149,12 +154,39 @@ service matches are substrings (`CONTAINS`, no regex). Statistics trim values wi
 | `count_entities_per_class.rq` | number of entities per dataset class | `check_completeness`, `generate_statistics` |
 | `count_filled_properties_per_class.rq` | entities with a non-blank value, per class and property | `check_completeness` |
 | `count_facilities_per_city.rq` | facilities per (trimmed) city | `generate_statistics` |
+| `count_facilities_per_postal_code.rq` | facilities per (trimmed) postal code; joined in Python with `data/einwohner_plz_de.csv` | `count_facilities_per_postal_code`, `facilities_per_inhabitant_by_region` |
+| `count_facilities_per_postal_code_and_city.rq` | facilities per (trimmed) postal code and city | `facilities_per_inhabitant_by_region` (the towns that name a region) |
 | `count_facilities_per_category.rq` | facilities per category | `generate_statistics` |
 | `count_facilities_per_provider.rq` | facilities per provider name | `generate_statistics` |
 | `count_facility_links.rq` | total / with address / with provider | `generate_statistics` |
 | `count_services_per_category.rq` | services per category | `generate_statistics` |
 | `count_services_per_audience.rq` | services per audience | `generate_statistics` |
 | `list_facility_cities_by_city_substring.rq` | `?facility ?city` rows whose city contains the text | tests only (independent reference) |
+| `list_facilities_by_bbox.rq` | facilities with coordinates inside a box, plus contacts, hours, audience, offers and provider | `find_nearby` |
+| `get_postal_code_location_by_postal_code.rq` | average coordinates (and count) of the addresses with a postal code | `find_nearby` (search origin) |
+| `get_facility_details_by_iri.rq` | one facility by IRI: address, contacts, hours, accessibility, offers, provider, source link | `get_awo_details` |
+| `list_entity_properties_by_iri.rq` | every property of one entity (any class) with its type; `?value_is_iri` marks links | `get_entity_card` |
+| `list_linked_services_by_iri.rq` | services whose `schema:provider` is the given facility/provider | `get_entity_card` |
+| `list_service_candidates_by_query.rq` | services matching name/category/audience, with the linked facility or provider, its type, name, postal code and locality | `search_service_candidates` |
+| `list_directory_facilities_by_term.rq` | facilities where a term occurs in their own text, their address or a linked service, with every field `search_directory` filters on or summarises | `search_directory` |
+
+**Numbers and IRIs as inputs.** Placeholders may only be string literals, and the naming
+check allows one `_by_` parameter. So `list_facilities_by_bbox.rq` takes a single
+`{{bbox}}` string (`"south,west,north,east"`, built and validated by `bounding_box()` in
+Python) and splits it with `STRBEFORE`/`STRAFTER` + `xsd:double`. `get_facility_details_by_iri.rq`
+turns `{{iri}}` into an IRI with `IRI("{{iri}}")`; `get_awo_details` only accepts IRIs under
+`cdf:` without spaces or IRI-breaking characters. `find_nearby` ranks and filters the box in
+Python: exact distance (haversine), comma-separated terms, and accessibility.
+
+**Entity cards and linked search.** `get_entity_card`, `search_service_candidates` and
+`search_directory` come from the datathon "directory-search" contribution (originally a
+patch for the CSV version). `get_entity_card` reads all properties of one entity with a
+generic query and follows links in Python (at most two levels: service → facility →
+address/provider), so missing, dangling, mistyped and multiple links are reported instead
+of dropped. `search_directory` sends only its longest term to SPARQL
+(`list_directory_facilities_by_term.rq`); every other term, the provider filter, the
+telephone filter, paging and the summaries over all matches are applied in Python. It
+needs one term of at least 3 characters so it never scans the whole directory.
 
 ### How each tool maps to the old CSV logic
 

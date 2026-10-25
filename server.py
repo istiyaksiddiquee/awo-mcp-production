@@ -7,13 +7,13 @@ sparql_queries/ against the live SPARQL endpoint. Run with `python server.py` (s
 import json
 import sys
 
-from mcp.server.mcpserver import MCPServer as FastMCP
+from mcp.server.mcpserver import MCPServer
 
 from src.sparql_client import SparqlClient
 
 sparql = SparqlClient()
 
-mcp = FastMCP("AWO MCP")
+mcp = MCPServer("AWO MCP")
 
 
 def to_json(data) -> str:

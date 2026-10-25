@@ -1,3 +1,4 @@
-# Runtime dependencies of server.py. The SPARQL client uses only the standard library.
+# Runtime dependencies of server.py. The SPARQL client uses only the standard library;
+# pandas is used by records_to_fix_first (src/fix_first.py).
 mcp>=2
 pandas>=2.2.0

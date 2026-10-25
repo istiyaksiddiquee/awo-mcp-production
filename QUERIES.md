@@ -140,6 +140,8 @@ service matches are substrings (`CONTAINS`, no regex). Statistics trim values wi
 |---|---|---|
 | `count_facilities_by_city.rq` | `?count` of facilities in a city | `count_facilities` |
 | `list_facilities_by_city.rq` | facility + address + contact rows for a city | `search_facilities` |
+| `list_facilities_by_postal_code.rq` | facility + address + contact rows for a postal code | `search_by_postal_code` |
+| `list_providers.rq` | providers with homepage and address | `list_providers`, `records_to_fix_first` |
 | `list_facility_details_by_name.rq` | facility details, address and provider for a name substring | `get_facility_details`, `compare_facilities` |
 | `list_facility_quality_fields_by_city.rq` | every field the data quality ranking checks, for the facilities of a city | `records_to_fix_first` |
 | `list_services_by_query.rq` | services whose name/category/audience contains the query | `search_services` |

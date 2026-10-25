@@ -23,7 +23,7 @@ Germany* (SoSuSe), a public SPARQL endpoint run by CorrelAid:
 ```text
 AI assistant (Claude Desktop, Claude Code, ...)
    │  MCP over stdio
-server.py               8 MCP tools; each calls one SparqlClient method and returns JSON
+server.py               13 MCP tools; each calls one SparqlClient method and returns JSON
    │
 src/sparql_client.py    loads a query file, fills in the parameters, sends it,
    │                    turns the result rows into the tool's answer
@@ -41,10 +41,11 @@ Tools never build query strings themselves. User input only reaches a query thro
 |---|---|
 | `server.py` | The MCP server. Defines the tools and the `find_help` prompt. Tool docstrings are what the LLM reads to choose a tool, so keep them descriptive. |
 | `src/sparql_client.py` | `SparqlClient`: one method per tool, plus `load_query()` and the `DATASETS` definition (RDF class and columns of facilities, addresses, services, providers). |
+| `src/fix_first.py` | Ranking logic behind `records_to_fix_first` (buckets, scores, provider batches). Works on a pandas table that `SparqlClient.facility_repository()` builds from one query. |
 | `sparql_queries/` | The SPARQL queries, one `.rq` file each, with a fixed naming scheme and header ([QUERIES.md](QUERIES.md)). You can paste them into the endpoint's web UI. |
 | `src/legacy/` | The old pandas/CSV implementation. **Not used by the server.** Kept as the reference that the offline parity tests compare the SPARQL queries against. |
 | `data/directory.ttl` | RDF snapshot of the directory. The offline tests run the real queries on it, so CI needs no network. |
-| `data/*Schema.csv` | The original AWO CSV export. Used only by the legacy tests; its headers define the `DATASETS` columns. |
+| `data/*Schema.csv` | The original AWO CSV export. Used only by the tests; its headers define the `DATASETS` columns. |
 | `tests/` | Five test layers (unit, MCP protocol, live API, LLM connection, LLM tool-calling evals) and a live test dashboard. See [TEST.md](TEST.md). |
 | `.github/workflows/` | CI: offline tests on every push, live API tests and LLM evals on manual trigger. |
 | `doc/` | Datathon presentations. |
@@ -61,6 +62,8 @@ Tools never build query strings themselves. User input only reaches a query thro
 | `generate_statistics()` | Dataset sizes; facilities per city, category and provider; services per category and audience; how many facilities have an address or provider | "Give me statistics about the directory" |
 | `check_completeness()` | Missing values per dataset and column | "Which columns have missing values?" |
 | `detect_duplicates()` | Groups of entries that are identical except for their IRI | "Are there duplicate entries?" |
+| `list_providers()` | All provider organisations with homepage and address | "Which providers are in the directory?" |
+| `search_by_postal_code(postal_code)` | Facilities with a five-digit postal code, with address and contact data | "Which facilities are in 10115?" |
 | `records_to_fix_first(city, ...)` | Facility records of a city ranked by how much fixing them matters, with reasons, provider batches and a projected coverage gain | "Which Berlin records should we fix first?" |
 | `find_nearby(location, radius_km, query, accessible_only, limit)` | Facilities within a radius of a postal code or `"latitude,longitude"`, nearest first, with distance, contacts and opening hours. `query` takes comma-separated terms and matches any of them | "Addiction counselling near 13353?" |
 | `get_awo_details(iri)` | Address, map link, contacts, opening hours, accessibility, offers, provider and source link for one facility | "What are the opening hours of this facility?" |
@@ -86,7 +89,7 @@ git clone git@github.com:istiyaksiddiquee/awo-mcp-production.git
 cd awo-mcp-production
 conda create -n awo-mcp python=3.11   # or: python3.11 -m venv .venv
 conda activate awo-mcp                # or: source .venv/bin/activate
-pip install -r requirements.txt       # the server only needs `mcp`
+pip install -r requirements.txt       # the server needs `mcp` and `pandas`
 pip install -r requirements-dev.txt   # only for running the tests
 ```
 

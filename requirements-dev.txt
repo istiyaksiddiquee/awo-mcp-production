@@ -1,7 +1,5 @@
 # Test dependencies (install together with requirements.txt).
 pytest>=8
 rdflib>=7
-# used by the legacy CSV reference implementation in src/legacy/ (parity tests only)
-pandas>=2.2.0
 # imported directly by tests/llm and tests/evals (mcp 1.x also pulls it in, mcp 2.x does not)
 httpx>=0.28,<1

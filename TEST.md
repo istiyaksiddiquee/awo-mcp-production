@@ -102,8 +102,6 @@ same data (e.g. phone numbers lost their leading 0), and two facilities differ.
 | `test_duplicate_query_selects_every_column` (×4) | each `list_duplicate_*.rq` compares every non-IRI column |
 | `test_count_facilities_parity` (×4) | Berlin/berlin/BERLIN/Atlantis: SPARQL count == CSV count |
 | `test_search_facilities_parity` (×4) | same cities: identical result rows (all 8 fields) |
-| `tests/unit/test_fix_first.py` | records_to_fix_first logic (buckets, scoring, tiers, batches, urgent focus) on a small fake repository |
-| `tests/unit/test_fix_first_sparql.py` | the real `list_facility_quality_fields_by_city.rq` on `directory.ttl`: one row per facility, addresses in the city, ranking runs, unknown city is empty |
 | `test_get_facility_details_parity` (×7) | Drehscheibe, drehscheibe, Lübecker, (HLS6), .*, AWO, empty: identical details incl. nested address and provider |
 | `test_search_services_parity` (×7) | Suchtberatung, sucht, Senioren, Pflege, Beratung, no-match, empty: identical services |
 | `test_detect_duplicates_parity` | same groups as the pandas duplicate logic with the IRI column left out |
@@ -118,6 +116,20 @@ same data (e.g. phone numbers lost their leading 0), and two facilities differ.
 | `test_empty_city_matches_nothing` | a facility without an address matches no city: `count_facilities("")` is 0 and `search_facilities("")` is empty, in both implementations |
 | `test_multi_valued_contacts_are_joined` | RDF allows several emails per facility (a CSV cell cannot): all are returned, joined with "; "; `graph_to_frames` refuses such data |
 | `test_escape_literal_used_for_every_placeholder` | placeholder values are escaped in every query |
+
+### `test_fix_first.py` / `test_fix_first_sparql.py` – `records_to_fix_first`
+
+`test_fix_first.py` checks the ranking logic in `src/fix_first.py` (buckets, scoring, tiers,
+filters, provider batches, urgent focus) on a small fake repository, so it does not depend
+on the data source. `test_fix_first_sparql.py` runs the real
+`list_facility_quality_fields_by_city.rq` on `data/directory.ttl`:
+
+| Test | Checks |
+|---|---|
+| `test_repository_has_one_row_per_facility_in_city` | one row per Berlin facility, as many as `count_facilities("Berlin")` |
+| `test_repository_addresses_belong_to_the_city` | every address in the repository is in Berlin |
+| `test_ranking_runs_and_counts_match` | summary total == `count_facilities`; at most `n` results, each with a priority tier |
+| `test_unknown_city_gives_empty_result` | unknown city → 0 facilities, no results |
 
 ### `test_query_files.py` – query files and query building
 

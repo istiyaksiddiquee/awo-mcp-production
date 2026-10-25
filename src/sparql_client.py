@@ -40,9 +40,9 @@ REGION_LEVELS = {"zone": 1, "region": 2, "area": 3}
 # Towns listed per region to name it.
 PLACES_PER_REGION = 3
 
-# Regions with fewer inhabitants are not ranked: they are fragments such as 11 (only Berlin's
-# 11011, the Bundestag) whose ratio says little.
-MIN_REGION_INHABITANTS = 50_000
+# Regions with fewer inhabitants are not ranked: they are fragments such as the area 256
+# (2,660 inhabitants) whose ratio says little.
+MIN_REGION_INHABITANTS = 10_000
 
 REGION_NOTE = (
     "Facilities are what the directory lists, so a low density can also mean that providers "

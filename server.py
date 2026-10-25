@@ -233,7 +233,7 @@ def facilities_per_inhabitant_by_region(
     order: str = "lowest_per_10k",
     postal_code_prefix: str = "",
     limit: int = 10,
-    min_inhabitants: int = 50_000,
+    min_inhabitants: int = 10_000,
 ) -> str:
     """
     Compare German regions by welfare facilities per inhabitant. Use it for questions such
@@ -250,8 +250,8 @@ def facilities_per_inhabitant_by_region(
         postal_code_prefix: Optional, limits to one part of Germany, e.g. "8" for the
             regions 80-89 or "48" for the areas 480-489. Must be shorter than the level.
         limit: How many regions to return (1-100, default 10).
-        min_inhabitants: Regions with fewer inhabitants are not ranked (default 50,000),
-            so tiny fragments such as a single special postal code do not top the list.
+        min_inhabitants: Regions with fewer inhabitants are not ranked (default 10,000),
+            so tiny fragments of a few thousand inhabitants do not top the list.
 
     Returns:
         JSON with totals and the average facilities per 10,000 inhabitants, and per region

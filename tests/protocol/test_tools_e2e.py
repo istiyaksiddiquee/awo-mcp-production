@@ -504,10 +504,10 @@ def test_e2e_facilities_per_inhabitant_by_region_counts_match_graph_and_census(g
     expected = graph_regions(graph, 2)
     assert result["facilities"] == sum(count for count, _ in expected.values()) > 0
     assert result["inhabitants"] == sum(n for code, n in inhabitants.items() if code.startswith("1"))
-    # 11 holds only Berlin's 11011 (18,996 inhabitants), below the 50,000 default.
-    assert result["regions_below_min_inhabitants"] == 1
-    assert "11" not in [row["postal_code_prefix"] for row in result["results"]]
-    assert result["showing"] == len(result["results"]) == result["regions"] - 1
+    # 11 holds only Berlin's 11011 (18,996 inhabitants), above the 10,000 default.
+    assert result["regions_below_min_inhabitants"] == 0
+    assert "11" in [row["postal_code_prefix"] for row in result["results"]]
+    assert result["showing"] == len(result["results"]) == result["regions"]
     for row in result["results"]:
         region = row["postal_code_prefix"]
         count, towns = expected.get(region, (0, Counter()))
@@ -532,9 +532,13 @@ def test_e2e_facilities_per_inhabitant_by_region_density_and_bad_input():
         assert row["relative_to_average"] == round(row["facilities_per_10k_inhabitants"] / average, 2)
         if row["facilities"]:
             assert row["inhabitants_per_facility"] == round(row["inhabitants"] / row["facilities"])
-    everything = call_json("facilities_per_inhabitant_by_region", {**arguments, "min_inhabitants": 0}, once=False)
-    assert everything["regions_below_min_inhabitants"] == 0
-    assert "11" in [row["postal_code_prefix"] for row in everything["results"]]
+    # The areas 175 (6,969 inhabitants) and 186 (7,687) are below the 10,000 default.
+    areas = {"level": "area", "postal_code_prefix": "1", "limit": 100}
+    default = call_json("facilities_per_inhabitant_by_region", areas, once=False)
+    everything = call_json("facilities_per_inhabitant_by_region", {**areas, "min_inhabitants": 0}, once=False)
+    assert default["regions_below_min_inhabitants"] == 2 and everything["regions_below_min_inhabitants"] == 0
+    assert {"175", "186"} & {row["postal_code_prefix"] for row in default["results"]} == set()
+    assert {"175", "186"} <= {row["postal_code_prefix"] for row in everything["results"]}
     for bad, key in [({"level": "state"}, "valid_levels"), ({"order": "pizza"}, "valid_orders")]:
         assert key in call_json("facilities_per_inhabitant_by_region", bad, once=False)
     too_long = call_json("facilities_per_inhabitant_by_region", {"level": "region", "postal_code_prefix": "48"}, once=False)

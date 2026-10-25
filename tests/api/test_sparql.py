@@ -227,7 +227,7 @@ MCP_CASES = {
     ),
     "facilities_per_inhabitant_by_region": (
         {"level": "region", "order": "lowest_per_10k", "postal_code_prefix": "", "limit": 5},
-        "facilities_per_inhabitant_by_region", ("region", "lowest_per_10k", "", 5, 50_000),
+        "facilities_per_inhabitant_by_region", ("region", "lowest_per_10k", "", 5, 10_000),
     ),
 }
 

@@ -5,6 +5,7 @@ sparql_queries/ against the live SPARQL endpoint. Run with `python server.py` (s
 """
 
 import json
+import os
 import sys
 
 from mcp.server.mcpserver import MCPServer as FastMCP
@@ -171,6 +172,15 @@ def search_by_postal_code(postal_code: str) -> str:
 
 
 if __name__ == "__main__":
-    # stdout carries the MCP protocol, so log to stderr.
+    # stdout carries the MCP protocol (stdio), so log to stderr.
     print("AWO MCP server starting...", file=sys.stderr)
-    mcp.run()
+    if os.environ.get("MCP_TRANSPORT", "stdio") == "streamable-http":
+        # Remote mode: endpoint is http://<host>:<port>/mcp
+        mcp.run(
+            transport="streamable-http",
+            host=os.environ.get("HOST", "0.0.0.0"),
+            port=int(os.environ.get("PORT", "8000")),
+            stateless_http=True,  # no per-session state; safe behind proxies and restarts
+        )
+    else:
+        mcp.run()  # stdio, as before (Claude Desktop / Claude Code)

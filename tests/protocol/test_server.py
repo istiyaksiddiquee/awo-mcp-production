@@ -27,6 +27,7 @@ SMOKE_ARGS = {
     "compare_facilities": {"facility_1": "Drehscheibe", "facility_2": "Metropolitankapitel"},
     "list_providers": {},
     "search_by_postal_code": {"postal_code": "10115"},
+    "records_to_fix_first": {"city": "Berlin", "n": 3},
     "find_nearby": {"location": "13353", "radius_km": 1, "query": "Sucht, Alkohol"},
     "get_awo_details": {"iri": "https://civic-data.de/federated-directory#org-229a4e0b1081"},
 }

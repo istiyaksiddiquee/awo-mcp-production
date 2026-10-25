@@ -50,6 +50,12 @@
     "expect_args": {"facility_1": "Drehscheibe", "facility_2": "Metropolitankapitel"}
   },
   {
+    "id": "fix-first-berlin",
+    "prompt": "Which Berlin facility records should we fix first?",
+    "expect_tool": "records_to_fix_first",
+    "expect_args": {"city": "Berlin"}
+  },
+  {
     "id": "nearby-postal-code",
     "prompt": "I need addiction counselling near postal code 13353. What is close by?",
     "expect_tool": "find_nearby",

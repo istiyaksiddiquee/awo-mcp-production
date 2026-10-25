@@ -171,6 +171,80 @@ def search_by_postal_code(postal_code: str) -> str:
 
 
 @mcp.tool()
+def records_to_fix_first(
+    city: str = "Berlin",
+    provider: str | None = None,
+    n: int = 10,
+    bucket: str | None = None,
+    group_by: str | None = None,
+    focus: str | None = None,
+    explain: bool = False,
+) -> str:
+    """
+    Rank the facility records of one city by how much fixing them matters, for
+    data maintainers (not for people looking for help). Use this when asked
+    which records to fix first, what is wrong with the data, which records may
+    not belong in the directory, whom to contact about missing information, or
+    how the priority or ranking of records is calculated (then set explain to
+    true). All counts and percentages in the result cover only the requested
+    city, never the whole directory.
+
+    Each record is placed in a bucket: complete_key_field (informative but
+    missing phone, email, hours or address), repair (a value is broken, such as
+    a phone number that lost its leading zero), ask_provider (the provider can
+    fill the gap), enrich_from_source (almost empty but a source page exists),
+    scope_check (may not be a service, for example a church body),
+    junk_or_duplicate, needs_research (almost empty, no lead) and minor_gaps.
+    Each record has a priority tier (high, medium or low), and results are
+    ordered from most to least important. The numeric score is not shown by
+    default, because small score differences are not meaningful.
+
+    Args:
+        city: City to check, for example "Berlin" (default). Matches exactly.
+        provider: Part of a provider name, or "unassigned" for facilities with
+            no provider link.
+        n: How many records to return (default 10).
+        bucket: Only return one bucket, for example "scope_check".
+        group_by: Use "provider" to get batches for outreach (one request per
+            provider) instead of single records.
+        focus: Use "urgent" to only return services people may urgently depend
+            on (addiction help, homelessness, crisis, debt counselling).
+        explain: Set to true only when the user asks how priority is determined
+            or why one record ranks above another. It adds the numeric score
+            and a breakdown (missing field weight, bonuses and bucket
+            multiplier) to each record.
+
+    How to answer: use only facts from the tool result, and do not add outside
+    knowledge such as dates, seasons or locations, and do not claim something
+    about all records unless the summary says so. Lead with the conclusion in
+    one or two sentences, then answer only what was asked (about 120 words plus
+    any table). Use a table only when listing several records or providers,
+    with just the columns that matter (name, priority, what is missing, where
+    to look). When listing records, show every returned row in rank order and
+    keep the rank numbers, so any text can refer to them. Take counts from the summary (for example `shown` and
+    `urgent_in_matching_records`) instead of counting rows yourself. Explain
+    how priority is calculated, or go into detail, only when the user asks.
+
+    Returns:
+        JSON with a summary, a projected coverage gain (a projection, not a
+        measured improvement), and either ranked records with reasons, leads
+        and next steps, or provider batches.
+    """
+
+    return to_json(
+        sparql.records_to_fix_first(
+            city,
+            provider=provider,
+            n=n,
+            bucket=bucket,
+            group_by=group_by,
+            focus=focus,
+            explain=explain,
+        )
+    )
+
+
+@mcp.tool()
 def find_nearby(
     location: str,
     radius_km: float = 2.0,

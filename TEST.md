@@ -199,11 +199,11 @@ This layer checks the MCP plumbing. Whether the results are correct is checked i
 
 | Test | Checks |
 |---|---|
-| `test_baseline_tools_are_listed` | none of the 12 tools in `SMOKE_ARGS` disappeared |
+| `test_baseline_tools_are_listed` | none of the 13 tools in `SMOKE_ARGS` disappeared |
 | `test_every_listed_tool_has_smoke_args` | **fails when someone adds a tool without registering it in `SMOKE_ARGS`** – the prompt to add tests |
-| `test_tool_metadata_is_llm_friendly` (×12) | docstring ≥ 20 chars, valid object schema, required ⊆ properties |
-| `test_tool_call_succeeds` (×12) | call with valid args returns no MCP error and non-empty output |
-| `test_tool_returns_valid_json_without_nan` (×11) | output parses as JSON; no bare `NaN` (`count_facilities` returns a plain number and is excluded) |
+| `test_tool_metadata_is_llm_friendly` (×13) | docstring ≥ 20 chars, valid object schema, required ⊆ properties |
+| `test_tool_call_succeeds` (×13) | call with valid args returns no MCP error and non-empty output |
+| `test_tool_returns_valid_json_without_nan` (×12) | output parses as JSON; no bare `NaN` (`count_facilities` returns a plain number and is excluded) |
 | `test_umlauts_are_not_escaped` | `ensure_ascii=False` works end-to-end |
 | `test_missing_required_argument_is_an_error` | error names the missing argument |
 | `test_wrong_argument_type_is_an_error` | wrong type rejected |
@@ -283,7 +283,7 @@ Each failed run is labelled with the **stage** where it broke:
 
 Cases (`tests/evals/cases.json`): `count-berlin`, `search-facilities-berlin`,
 `facility-details`, `search-services-sucht`, `duplicates`, `completeness`, `statistics`, `compare`,
-`nearby-postal-code`, `nearby-coordinates`, `awo-details-by-iri`.
+`fix-first-berlin`, `nearby-postal-code`, `nearby-coordinates`, `awo-details-by-iri`.
 
 ### Testing a new feature
 1. Add valid arguments to `SMOKE_ARGS` in `tests/protocol/test_server.py`.

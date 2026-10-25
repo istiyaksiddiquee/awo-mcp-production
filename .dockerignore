@@ -1,0 +1,11 @@
+.git
+.github
+tests
+doc
+assets
+data
+src/legacy
+__pycache__
+*.pyc
+.env
+.venv
